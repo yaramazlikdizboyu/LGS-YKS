@@ -1,6 +1,7 @@
 import json
 import os
 import io
+import time
 import requests
 from google import genai
 from PIL import Image, ImageDraw, ImageFont
@@ -34,30 +35,37 @@ def generate_content(lesson_info):
         "cozum": "Adım adım mantıksal çözüm ve Maarif Modeli açıklaması"
     }}
     """
-    response = client.models.generate_content(
-        model='gemini-3.6-flash',
-        contents=prompt,
-        config={'response_mime_type': 'application/json'}
-    )
-    return json.loads(response.text)
+    
+    # 503 Yoğunluk hatalarına karşı otomatik 3 kez deneme mekanizması
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(
+                model='gemini-3.6-flash',
+                contents=prompt,
+                config={'response_mime_type': 'application/json'}
+            )
+            return json.loads(response.text)
+        except Exception as e:
+            print(f"API Yoğunluk Hatası (Deneme {attempt+1}/3): {e}")
+            if attempt < 2:
+                time.sleep(5)  # 5 saniye bekleyip tekrar dene
+            else:
+                raise e
 
 def create_pro_banner(lesson_name, topic_name):
-    """Derse özel renk paletiyle profesyonel infografik banner üretir"""
-    # Derse göre tema renkleri belirleme
     lesson_lower = lesson_name.lower()
     if "matematik" in lesson_lower:
-        bg_color, accent_color = (24, 43, 73), (52, 152, 219) # Lacivert & Mavi
+        bg_color, accent_color = (24, 43, 73), (52, 152, 219)
     elif "fen" in lesson_lower:
-        bg_color, accent_color = (20, 90, 50), (46, 204, 113) # Koyu Yeşil & Açık Yeşil
+        bg_color, accent_color = (20, 90, 50), (46, 204, 113)
     elif "türkçe" in lesson_lower:
-        bg_color, accent_color = (120, 40, 31), (231, 76, 60) # Bordro & Kırmızı
+        bg_color, accent_color = (120, 40, 31), (231, 76, 60)
     else:
-        bg_color, accent_color = (81, 46, 95), (155, 89, 182) # Mor tonları
+        bg_color, accent_color = (81, 46, 95), (155, 89, 182)
 
     img = Image.new('RGB', (900, 450), color=bg_color)
     d = ImageDraw.Draw(img)
     
-    # Modern şerit ve çerçeve detayları
     d.rectangle([0, 0, 900, 35], fill=accent_color)
     d.rectangle([0, 415, 900, 450], fill=accent_color)
     
@@ -77,7 +85,6 @@ def create_pro_banner(lesson_name, topic_name):
     return bio
 
 def send_telegram_pro_post(data, lesson_info):
-    # Profesyonel Gönderi Metni (Caption sınırına ve okunabilirliğe uygun)
     caption = f"🚀 **LGS MAARİF AKADEMİ | PROFESYONEL ÇALIŞMA** 🌟\n\n"
     caption += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n\n"
     caption += f"💡 **Nokta Atışı Özet:**\n{data['ozet']}\n\n"
@@ -91,7 +98,6 @@ def send_telegram_pro_post(data, lesson_info):
     caption += f"\n────────────────────────\n"
     caption += f"🔍 **Çözüm İpucu:**\n{data['cozum']}"
 
-    # 1. Görsel ile birlikte metni tek bir profesyonel gönderi olarak at
     try:
         banner_io = create_pro_banner(lesson_info['lesson'], lesson_info['topic'])
         url_photo = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
@@ -103,11 +109,9 @@ def send_telegram_pro_post(data, lesson_info):
         }
         requests.post(url_photo, data=payload, files=files)
     except Exception as e:
-        # Hata durumunda metni doğrudan göndererek akışın kesilmesini önle
         url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
         requests.post(url_msg, data={"chat_id": TELEGRAM_CHAT_ID, "text": caption, "parse_mode": "Markdown"})
 
-    # 2. İnteraktif Quiz Anketini Gönder
     url_poll = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPoll"
     poll_data = {
         "chat_id": TELEGRAM_CHAT_ID,
