@@ -35,8 +35,6 @@ def generate_content(lesson_info):
         "cozum": "Adım adım mantıksal çözüm ve Maarif Modeli açıklaması"
     }}
     """
-    
-    # 503 Yoğunluk hatalarına karşı otomatik 3 kez deneme mekanizması
     for attempt in range(3):
         try:
             response = client.models.generate_content(
@@ -48,7 +46,7 @@ def generate_content(lesson_info):
         except Exception as e:
             print(f"API Yoğunluk Hatası (Deneme {attempt+1}/3): {e}")
             if attempt < 2:
-                time.sleep(5)  # 5 saniye bekleyip tekrar dene
+                time.sleep(5)
             else:
                 raise e
 
@@ -85,33 +83,37 @@ def create_pro_banner(lesson_name, topic_name):
     return bio
 
 def send_telegram_pro_post(data, lesson_info):
-    caption = f"🚀 **LGS MAARİF AKADEMİ | PROFESYONEL ÇALIŞMA** 🌟\n\n"
-    caption += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n\n"
-    caption += f"💡 **Nokta Atışı Özet:**\n{data['ozet']}\n\n"
-    caption += f"────────────────────────\n"
-    caption += f"❓ **Yeni Nesil Soru:**\n{data['soru']}\n\n"
-    
-    caption += "📌 **Seçenekler:**\n"
-    for sec in data['secenekler']:
-        caption += f"{sec}\n"
-        
-    caption += f"\n────────────────────────\n"
-    caption += f"🔍 **Çözüm İpucu:**\n{data['cozum']}"
-
+    # 1. Önce Şık Banner Görselini Gönder
     try:
         banner_io = create_pro_banner(lesson_info['lesson'], lesson_info['topic'])
         url_photo = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
         files = {'photo': ('pro_banner.jpg', banner_io, 'image/jpeg')}
         payload = {
             "chat_id": TELEGRAM_CHAT_ID,
-            "caption": caption,
-            "parse_mode": "Markdown"
+            "caption": f"🎯 {lesson_info['lesson'].upper()} - {lesson_info['topic']}"
         }
         requests.post(url_photo, data=payload, files=files)
     except Exception as e:
-        url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-        requests.post(url_msg, data={"chat_id": TELEGRAM_CHAT_ID, "text": caption, "parse_mode": "Markdown"})
+        print(f"Görsel gönderilemedi: {e}")
 
+    # 2. Sonra Detaylı Metin Mesajını Gönder (Karakter sınırına takılmaksızın tam iletilir)
+    message = f"🚀 LGS MAARİF AKADEMİ | PROFESYONEL ÇALIŞMA 🌟\n\n"
+    message += f"📌 {lesson_info['lesson'].upper()} ➔ {lesson_info['topic']}\n\n"
+    message += f"💡 Nokta Atışı Özet:\n{data['ozet']}\n\n"
+    message += f"────────────────────────\n"
+    message += f"❓ Yeni Nesil Soru:\n{data['soru']}\n\n"
+    
+    message += "📌 Seçenekler:\n"
+    for sec in data['secenekler']:
+        message += f"{sec}\n"
+        
+    message += f"\n────────────────────────\n"
+    message += f"🔍 Çözüm İpucu:\n{data['cozum']}"
+
+    url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    requests.post(url_msg, data={"chat_id": TELEGRAM_CHAT_ID, "text": message})
+
+    # 3. En Sona İnteraktif Anketi Ekle
     url_poll = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPoll"
     poll_data = {
         "chat_id": TELEGRAM_CHAT_ID,
