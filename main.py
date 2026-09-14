@@ -30,7 +30,7 @@ def generate_content(lesson_info):
         "secenekler": ["A) ...", "B) ...", "C) ...", "D) ..."],
         "dogru_cevap_index": 0,
         "cozum": "Adım adım çözüm ve Maarif Modeli becerisi açıklaması",
-        "gorsel_aciklamasi": "Bu soru ve konu için çocukların ilgisini çekecek, renkli çizgi film tarzı bir illüstrasyon veya eğlenceli bir sahne açıklaması (örneğin: 'Renkli sebzelerle dolu neşeli bir dikey tarım çiftliği, neon mavi ve kırmızı LED ışıklar altında sevimli robotlar')"
+        "gorsel_aciklamasi": "Bu soru ve konu için çocukların ilgisini çekecek renkli bir illüstrasyon açıklaması"
     }}
     """
     response = client.models.generate_content(
@@ -41,21 +41,18 @@ def generate_content(lesson_info):
     return json.loads(response.text)
 
 def send_telegram_test_post(data, lesson_info):
-    # Çocukların dikkatini çekecek eğlenceli emoji ve başlıklar
     caption = f"🚀 **LGS MAARİF AKADEMİ | EĞLENCELİ ÖĞRENME** 🌟\n\n"
     caption += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n"
-    caption += f"🎨 *Görsel Konsept:* `{data.get('gorsel_aciklamasi', 'Eğlenceli ders konsepti')}`\n"
     caption += f"🏷 #{lesson_info['lesson'].replace(' ', '')} #LGS2026 #MaarifModeli\n\n"
     caption += f"💡 **GÖZ KAMAŞTIRAN ÖZET**\n{data['ozet']}\n\n"
     caption += f"────────────────────────\n\n"
     caption += f"❓ **YENİ NESİL MACERA SORUSU**\n{data['soru']}\n\n"
     caption += f"🔍 **ADIM ADIM ÇÖZÜM & İPUCU**\n{data['cozum']}"
 
-    # İlgi çekici, derslere özel renkli ve güvenilir bir banner/illüstrasyon görseli (Unsplash üzerinden dinamik görsel)
-    # İlerleyen aşamalarda kendi özel görsellerinizle de değiştirebilirsiniz.
-    banner_url = "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1000&auto=format&fit=crop"
+    # Sabit ve kararlı bir eğitim/ders çalışma görseli
+    banner_url = "https://picsum.photos/seed/lgsmaarif/800/500"
 
-    # Fotoğraflı Mesaj Gönderimi (sendPhoto)
+    # Önce fotoğraflı mesajı göndermeyi dene, hata olursa düz metin olarak gönder
     url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
@@ -63,7 +60,16 @@ def send_telegram_test_post(data, lesson_info):
         "caption": caption,
         "parse_mode": "Markdown"
     }
-    requests.post(url_msg, data=payload)
+    response = requests.post(url_msg, data=payload)
+    
+    # Eğer fotoğraf gönderiminde hata olursa normal sendMessage'a düş
+    if not response.json().get("ok"):
+        url_text_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        requests.post(url_text_msg, data={
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": caption,
+            "parse_mode": "Markdown"
+        })
 
     # Etkileşimli Quiz / Anket Gönderimi
     url_poll = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPoll"
@@ -74,7 +80,7 @@ def send_telegram_test_post(data, lesson_info):
         "type": "quiz",
         "correct_option_id": data["dogru_cevap_index"],
         "is_anonymous": True,
-        "explanation": "Tebrikler! Açıklamayı okuyarak konuyu pekiştirdin."
+        "explanation": f"Doğru Çözüm: {data['cozum'][:150]}..."
     }
     requests.post(url_poll, data=poll_data)
 
