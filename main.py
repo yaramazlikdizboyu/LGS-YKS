@@ -1,7 +1,9 @@
 import json
 import os
+import io
 import requests
 from google import genai
+from PIL import Image, ImageDraw, ImageFont
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
@@ -19,17 +21,17 @@ def save_state(state):
 
 def generate_content(lesson_info):
     prompt = f"""
-    Sen Türkiye Yüzyılı Maarif Modeli'ne uygun LGS içerikleri üreten bir uzmansın.
+    Sen Türkiye Yüzyılı Maarif Modeli'ne uygun, üst düzey LGS içerikleri üreten uzman bir eğitmensin.
     Ders: {lesson_info['lesson']}
     Konu: {lesson_info['topic']}
     
     Aşağıdaki JSON formatında çıktı ver (başka hiçbir metin yazma):
     {{
-        "ozet": "Konuyla ilgili 3 maddelik kısa ve net bilgi özeti",
-        "soru": "Yeni nesil beceri temelli soru metni",
+        "ozet": "Konuyla ilgili 3 maddelik nokta atışı ve akılda kalıcı bilgi özeti",
+        "soru": "Öğrencinin analiz yeteneğini ölçen yeni nesil beceri temelli soru metni",
         "secenekler": ["A) ...", "B) ...", "C) ...", "D) ..."],
         "dogru_cevap_index": 0,
-        "cozum": "Kısa ve net adım adım çözüm"
+        "cozum": "Adım adım mantıksal çözüm ve Maarif Modeli açıklaması"
     }}
     """
     response = client.models.generate_content(
@@ -39,32 +41,77 @@ def generate_content(lesson_info):
     )
     return json.loads(response.text)
 
-def send_telegram_test_post(data, lesson_info):
-    # Markdown karakterlerinden arındırılmış, güvenli ve kompakt mesaj yapısı
-    message = f"LGS MAARIF AKADEMI\n\n"
-    message += f"DERS: {lesson_info['lesson'].upper()} - {lesson_info['topic']}\n\n"
-    message += f"KAPSAMLI OZET:\n{data['ozet']}\n\n"
-    message += f"YENI NESIL SORU:\n{data['soru']}\n\n"
+def create_pro_banner(lesson_name, topic_name):
+    """Derse özel renk paletiyle profesyonel infografik banner üretir"""
+    # Derse göre tema renkleri belirleme
+    lesson_lower = lesson_name.lower()
+    if "matematik" in lesson_lower:
+        bg_color, accent_color = (24, 43, 73), (52, 152, 219) # Lacivert & Mavi
+    elif "fen" in lesson_lower:
+        bg_color, accent_color = (20, 90, 50), (46, 204, 113) # Koyu Yeşil & Açık Yeşil
+    elif "türkçe" in lesson_lower:
+        bg_color, accent_color = (120, 40, 31), (231, 76, 60) # Bordro & Kırmızı
+    else:
+        bg_color, accent_color = (81, 46, 95), (155, 89, 182) # Mor tonları
+
+    img = Image.new('RGB', (900, 450), color=bg_color)
+    d = ImageDraw.Draw(img)
     
-    message += "SECENEKLER:\n"
-    for sec in data['secenekler']:
-        message += f"{sec}\n"
+    # Modern şerit ve çerçeve detayları
+    d.rectangle([0, 0, 900, 35], fill=accent_color)
+    d.rectangle([0, 415, 900, 450], fill=accent_color)
+    
+    try:
+        font = ImageFont.load_default()
+    except:
+        font = None
         
-    message += f"\nCOZUM:\n{data['cozum']}"
+    d.text((60, 120), "LGS MAARİF AKADEMİ", fill=(241, 196, 15), font=font)
+    d.text((60, 175), lesson_name.upper(), fill=(255, 255, 255), font=font)
+    d.text((60, 235), topic_name, fill=accent_color, font=font)
+    
+    bio = io.BytesIO()
+    bio.name = 'pro_banner.jpg'
+    img.save(bio, 'JPEG')
+    bio.seek(0)
+    return bio
 
-    # Parse_mode kullanmadan düz metin olarak gönderiyoruz (Hata riskini %0 yapar)
-    url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "text": message
-    }
-    requests.post(url_msg, data=payload)
+def send_telegram_pro_post(data, lesson_info):
+    # Profesyonel Gönderi Metni (Caption sınırına ve okunabilirliğe uygun)
+    caption = f"🚀 **LGS MAARİF AKADEMİ | PROFESYONEL ÇALIŞMA** 🌟\n\n"
+    caption += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n\n"
+    caption += f"💡 **Nokta Atışı Özet:**\n{data['ozet']}\n\n"
+    caption += f"────────────────────────\n"
+    caption += f"❓ **Yeni Nesil Soru:**\n{data['soru']}\n\n"
+    
+    caption += "📌 **Seçenekler:**\n"
+    for sec in data['secenekler']:
+        caption += f"{sec}\n"
+        
+    caption += f"\n────────────────────────\n"
+    caption += f"🔍 **Çözüm İpucu:**\n{data['cozum']}"
 
-    # Etkileşimli Anket Gönderimi
+    # 1. Görsel ile birlikte metni tek bir profesyonel gönderi olarak at
+    try:
+        banner_io = create_pro_banner(lesson_info['lesson'], lesson_info['topic'])
+        url_photo = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+        files = {'photo': ('pro_banner.jpg', banner_io, 'image/jpeg')}
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "caption": caption,
+            "parse_mode": "Markdown"
+        }
+        requests.post(url_photo, data=payload, files=files)
+    except Exception as e:
+        # Hata durumunda metni doğrudan göndererek akışın kesilmesini önle
+        url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        requests.post(url_msg, data={"chat_id": TELEGRAM_CHAT_ID, "text": caption, "parse_mode": "Markdown"})
+
+    # 2. İnteraktif Quiz Anketini Gönder
     url_poll = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPoll"
     poll_data = {
         "chat_id": TELEGRAM_CHAT_ID,
-        "question": f"Gunun Sorusu: {lesson_info['topic']}",
+        "question": f"🧠 [Günün Sorusu] {lesson_info['topic']}",
         "options": json.dumps(data["secenekler"]),
         "type": "quiz",
         "correct_option_id": data["dogru_cevap_index"],
@@ -82,7 +129,7 @@ def main():
 
     lesson_info = topics[current_idx]
     content = generate_content(lesson_info)
-    send_telegram_test_post(content, lesson_info)
+    send_telegram_pro_post(content, lesson_info)
 
     state["current_index"] = current_idx + 1
     save_state(state)
