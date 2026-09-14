@@ -32,8 +32,9 @@ def generate_content(lesson_info):
         "cozum": "Adım adım çözüm ve Maarif Modeli becerisi açıklaması"
     }}
     """
+    # Model ismi daha kararlı olan 'gemini-1.5-flash' veya varsayılan flash modeline güncellendi
     response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-1.5-flash',
         contents=prompt,
         config={'response_mime_type': 'application/json'}
     )
@@ -79,4 +80,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
