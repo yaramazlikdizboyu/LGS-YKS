@@ -4,258 +4,370 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Türkiye Yüzyılı Maarif Akademi | Eğitim Portalı</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9 !important; }
-        .tab-content, .sub-content, .topic-detail { display: none; }
-        .tab-content.active, .sub-content.active, .topic-detail.active { display: block; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
+            padding: 24px 16px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 650px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #e0e7ff;
+            color: #3730a3;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        h1 span { color: #4f46e5; }
+        .subtitle {
+            font-size: 14px;
+            color: #475569;
+            font-weight: 600;
+        }
+        /* Kademe Sekmeleri */
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: #ffffff;
+            padding: 8px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 800;
+            border: none;
+            background: transparent;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: #4f46e5;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        /* Dersler Menüsü */
+        .lesson-menu {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-bottom: 16px;
+        }
+        .lesson-btn {
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #475569;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .lesson-btn.active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+        /* İçerik Alanları */
+        .tab-pane, .lesson-pane, .card-pane {
+            display: none;
+        }
+        .tab-pane.active, .lesson-pane.active, .card-pane.active {
+            display: block;
+        }
+        .box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            margin-bottom: 16px;
+        }
+        .box-title {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #4f46e5;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .topic-item {
+            width: 100%;
+            text-align: left;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #1e293b;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+        .topic-item:hover {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+        }
+        .topic-item span.arrow {
+            color: #4f46e5;
+            font-size: 12px;
+        }
+        /* Konu Kartı Detayı */
+        .card-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            margin-bottom: 16px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+        .card-tag {
+            font-size: 11px;
+            font-weight: 800;
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            cursor: pointer;
+        }
+        .card-content h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+        .card-body-text {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #334155;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .card-body-text b { color: #4f46e5; }
+        footer {
+            text-align: center;
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            margin-top: 30px;
+            padding-bottom: 20px;
+        }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-900 min-h-screen py-8 px-4 sm:px-6 relative overflow-x-hidden">
+<body>
 
-    <div class="max-w-2xl mx-auto space-y-6 relative z-10">
+    <div class="container">
         
         <!-- ÜST BAŞLIK -->
-        <header class="text-center space-y-3">
-            <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-extrabold px-4 py-2 rounded-full border border-indigo-200 shadow-sm">
-                <span>✨</span>
-                <span>TÜRKİYE YÜZYILI MAARİF MODELİ</span>
-            </div>
-            <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900">
-                Maarif <span class="text-indigo-600">Akademi</span>
-            </h1>
-            <p class="text-sm font-semibold text-slate-600">Kademeni seç, dersini belirle, profesyonel kartlarla çalışmaya başla.</p>
+        <header>
+            <div class="badge">✨ TÜRKİYE YÜZYILI MAARİF MODELİ</div>
+            <h1>Maarif <span>Akademi</span></h1>
+            <p class="subtitle">Kademeni seç, dersini belirle, profesyonel kartlarla çalışmaya başla.</p>
         </header>
 
-        <!-- KADEME SEÇİM SEKME BUTONLARI (LGS - TYT - AYT) -->
-        <div class="grid grid-cols-3 gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-xl">
-            <button onclick="switchTab('lgs')" id="btn-lgs" class="py-3 rounded-xl font-extrabold text-sm transition-all bg-indigo-600 text-white shadow-md cursor-pointer">
-                LGS
-            </button>
-            <button onclick="switchTab('tyt')" id="btn-tyt" class="py-3 rounded-xl font-extrabold text-sm transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer">
-                TYT
-            </button>
-            <button onclick="switchTab('ayt')" id="btn-ayt" class="py-3 rounded-xl font-extrabold text-sm transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer">
-                AYT
-            </button>
+        <!-- KADEME SEÇİMİ (LGS - TYT - YKS) -->
+        <div class="tabs">
+            <button onclick="switchTab('lgs')" id="btn-lgs" class="tab-btn active">LGS</button>
+            <button onclick="switchTab('tyt')" id="btn-tyt" class="tab-btn">TYT</button>
+            <button onclick="switchTab('yks')" id="btn-yks" class="tab-btn">YKS (AYT)</button>
         </div>
 
-        <!-- ================= LGS SEKMESİ ================= -->
-        <div id="tab-lgs" class="tab-content active space-y-5">
-            <!-- Dersler Menüsü -->
-            <div class="grid grid-cols-3 gap-2">
-                <button onclick="switchLgsLesson('turkce')" id="lgs-lesson-turkce" class="py-2.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 text-white shadow cursor-pointer">Türkçe</button>
-                <button onclick="switchLgsLesson('mat')" id="lgs-lesson-mat" class="py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer">Matematik</button>
-                <button onclick="switchLgsLesson('fen')" id="lgs-lesson-fen" class="py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer">Fen Bilimleri</button>
+        <!-- ================= LGS BÖLÜMÜ ================= -->
+        <div id="pane-lgs" class="tab-pane active">
+            <div class="lesson-menu">
+                <button onclick="switchLesson('lgs', 'turkce')" id="lgs-les-turkce" class="lesson-btn active">Türkçe</button>
+                <button onclick="switchLesson('lgs', 'mat')" id="lgs-les-mat" class="lesson-btn">Matematik</button>
+                <button onclick="switchLesson('lgs', 'fen')" id="lgs-les-fen" class="lesson-btn">Fen Bilimleri</button>
             </div>
 
-            <!-- Türkçe Ders İçeriği -->
-            <div id="lgs-content-turkce" class="sub-content active space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-indigo-700 tracking-wider">Türkçe Konu Listesi</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('lgs-turkce-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>📖 Fiilimsiler ve Metin Analizi</span> <span class="text-indigo-600 text-xs font-bold">İncele →</span>
-                        </button>
-                        <button onclick="openTopic('lgs-turkce-2')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>📖 Cümlenin Ögeleri</span> <span class="text-indigo-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <!-- LGS Türkçe -->
+            <div id="lgs-turkce" class="lesson-pane active">
+                <div class="box">
+                    <div class="box-title">Türkçe Konu Listesi</div>
+                    <button onclick="openCard('lgs-t1')" class="topic-item"><span>📖 Fiilimsiler ve Metin Analizi</span><span class="arrow">İncele →</span></button>
+                    <button onclick="openCard('lgs-t2')" class="topic-item"><span>📖 Cümlenin Ögeleri</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <!-- Konu Anlatım Kartı 1 -->
-                <div id="topic-lgs-turkce-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-indigo-700 font-black bg-indigo-50 px-3 py-1 rounded-lg">Türkçe • Konu Kartı</span>
-                        <button onclick="closeTopic('lgs-turkce-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Fiilimsiler (Eylemsimsiler)</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-indigo-600 font-bold block mb-1">1. İsim-Fiil (Ad Eylem):</b> 
-                            Fiillere getirilen <code class="bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-mono text-xs">-ma, -ış, -mak</code> ekleriyle yapılır. Cümlede isim görevinde kullanılır. <br><i>Örnek: Kitap <b>okumak</b> en büyük tutkusuydu.</i>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-indigo-600 font-bold block mb-1">2. Sıfat-Fiil (Ortaç):</b> 
-                            Fiillere getirilen <code class="bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-mono text-xs">Anası mezar dikecekmiş</code> ekleriyle yapılır. Cümlede sıfat görevi üstlenir. <br><i>Örnek: <b>Gülümseyen</b> insanlar etrafa neşe saçar.</i>
+                <div id="card-lgs-t1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">Türkçe • Konu Kartı</span><button onclick="closeCard('lgs-t1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Fiilimsiler (Eylemsimsiler)</h2>
+                            <div class="card-body-text"><b>1. İsim-Fiil:</b> -ma, -ış, -mak ekleriyle oluşur. Örnek: <i>Kitap okumak en büyük tutkusuydu.</i></div>
+                            <div class="card-body-text"><b>2. Sıfat-Fiil:</b> Anası mezar dikecekmiş ekleriyle kurulur. Örnek: <i>Gülümseyen insanlar...</i></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Konu Anlatım Kartı 2 -->
-                <div id="topic-lgs-turkce-2" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-indigo-700 font-black bg-indigo-50 px-3 py-1 rounded-lg">Türkçe • Konu Kartı</span>
-                        <button onclick="closeTopic('lgs-turkce-2')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Cümlenin Ögeleri</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-indigo-600 font-bold block mb-1">Temel Ögeler:</b> 
-                            Yüklem ve Özne cümlenin temel taşıdır. Yüklem yargıyı bildiren çekimli fiil veya ek eylem almış isimdir.
+                <div id="card-lgs-t2" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">Türkçe • Konu Kartı</span><button onclick="closeCard('lgs-t2')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Cümlenin Ögeleri</h2>
+                            <div class="card-body-text"><b>Temel Ögeler:</b> Yüklem ve Özne cümlenin temel taşıdır. Yüklem yargıyı bildirir.</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Matematik Ders İçeriği (LGS) -->
-            <div id="lgs-content-mat" class="sub-content space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-amber-700 tracking-wider">Matematik Konu Listesi</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('lgs-mat-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-amber-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>📐 Çarpanlar ve Katlar</span> <span class="text-amber-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <!-- LGS Matematik -->
+            <div id="lgs-mat" class="lesson-pane">
+                <div class="box">
+                    <div class="box-title">Matematik Konu Listesi</div>
+                    <button onclick="openCard('lgs-m1')" class="topic-item"><span>📐 Çarpanlar ve Katlar (EBOB-EKOK)</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <div id="topic-lgs-mat-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-amber-700 font-black bg-amber-50 px-3 py-1 rounded-lg">Matematik • Konu Kartı</span>
-                        <button onclick="closeTopic('lgs-mat-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Çarpanlar ve Katlar (EBOB - EKOK)</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-amber-600 font-bold block mb-1">EBOB:</b> İki veya daha fazla doğal sayının ortak bölenlerinin en büyüğüdür.
+                <div id="card-lgs-m1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">Matematik • Konu Kartı</span><button onclick="closeCard('lgs-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Çarpanlar ve Katlar</h2>
+                            <div class="card-body-text"><b>EBOB:</b> İki veya daha fazla doğal sayının ortak bölenlerinin en büyüğüdür.</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Fen Bilimleri İçeriği (LGS) -->
-            <div id="lgs-content-fen" class="sub-content space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-emerald-700 tracking-wider">Fen Bilimleri Konu Listesi</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('lgs-fen-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>🧬 Mevsimlerin Oluşumu ve İklim</span> <span class="text-emerald-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <!-- LGS Fen Bilimleri -->
+            <div id="lgs-fen" class="lesson-pane">
+                <div class="box">
+                    <div class="box-title">Fen Bilimleri Konu Listesi</div>
+                    <button onclick="openCard('lgs-f1')" class="topic-item"><span>🧬 Mevsimlerin Oluşumu ve İklim</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <div id="topic-lgs-fen-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-emerald-700 font-black bg-emerald-50 px-3 py-1 rounded-lg">Fen • Konu Kartı</span>
-                        <button onclick="closeTopic('lgs-fen-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Mevsimlerin Oluşumu</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-emerald-600 font-bold block mb-1">Eksen Eğikliği:</b> Dünyanın dönme ekseninin 23 derece 27 dakika eğik olması mevsimleri oluşturur.
+                <div id="card-lgs-f1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">Fen Bilimleri • Konu Kartı</span><button onclick="closeCard('lgs-f1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Mevsimlerin Oluşumu</h2>
+                            <div class="card-body-text"><b>Eksen Eğikliği:</b> Dünyanın dönme ekseninin 23° 27' eğik olması mevsimleri meydana getirir.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= TYT SEKMESİ ================= -->
-        <div id="tab-tyt" class="tab-content space-y-5">
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="switchTytLesson('mat')" id="tyt-lesson-mat" class="py-2.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 text-white shadow cursor-pointer">Matematik</button>
-                <button onclick="switchTytLesson('turkce')" id="tyt-lesson-turkce" class="py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer">Türkçe</button>
+        <!-- ================= TYT BÖLÜMÜ ================= -->
+        <div id="pane-tyt" class="tab-pane">
+            <div class="lesson-menu">
+                <button onclick="switchLesson('tyt', 'mat')" id="tyt-les-mat" class="lesson-btn active">Matematik</button>
+                <button onclick="switchLesson('tyt', 'turkce')" id="tyt-les-turkce" class="lesson-btn">Türkçe</button>
             </div>
 
-            <div id="tyt-content-mat" class="sub-content active space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-indigo-700 tracking-wider">TYT Matematik Konuları</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('tyt-mat-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>🔢 Temel Kavramlar ve Sayılar</span> <span class="text-indigo-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <div id="tyt-mat" class="lesson-pane active">
+                <div class="box">
+                    <div class="box-title">TYT Matematik Konuları</div>
+                    <button onclick="openCard('tyt-m1')" class="topic-item"><span>🔢 Temel Kavramlar ve Sayılar</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <div id="topic-tyt-mat-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-indigo-700 font-black bg-indigo-50 px-3 py-1 rounded-lg">TYT Matematik • Konu Kartı</span>
-                        <button onclick="closeTopic('tyt-mat-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Temel Kavramlar</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-indigo-600 font-bold block mb-1">Sayı Kümeleri:</b> Doğal sayılar ($\mathbb{N}$), Tam sayılar ($\mathbb{Z}$), Rasyonel sayılar ($\mathbb{Q}$) ve Gerçek sayılar ($\mathbb{R}$) sistematiği.
+                <div id="card-tyt-m1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">TYT Matematik • Konu Kartı</span><button onclick="closeCard('tyt-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Temel Kavramlar</h2>
+                            <div class="card-body-text"><b>Sayı Kümeleri:</b> Doğal, tam, rasyonel ve gerçek sayılar sistematiği.</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="tyt-content-turkce" class="sub-content space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-indigo-700 tracking-wider">TYT Türkçe Konuları</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('tyt-turkce-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>✍️ Sözcükte Anlam ve Yorumbilim</span> <span class="text-indigo-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <div id="tyt-turkce" class="lesson-pane">
+                <div class="box">
+                    <div class="box-title">TYT Türkçe Konuları</div>
+                    <button onclick="openCard('tyt-t1')" class="topic-item"><span>✍️ Sözcükte Anlam ve Yorumbilim</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <div id="topic-tyt-turkce-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-indigo-700 font-black bg-indigo-50 px-3 py-1 rounded-lg">TYT Türkçe • Konu Kartı</span>
-                        <button onclick="closeTopic('tyt-turkce-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Sözcükte Anlam</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-indigo-600 font-bold block mb-1">Gerçek ve Mecaz Anlam:</b> Sözcüğün akla gelen ilk anlamı ile tamamen soyutlaşmış yan anlam ilişkileri.
+                <div id="card-tyt-t1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">TYT Türkçe • Konu Kartı</span><button onclick="closeCard('tyt-t1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Sözcükte Anlam</h2>
+                            <div class="card-body-text"><b>Gerçek ve Mecaz:</b> Sözcüğün akla gelen ilk anlamı ve yan anlam ilişkileri.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ================= AYT SEKMESİ ================= -->
-        <div id="tab-ayt" class="tab-content space-y-5">
-            <div class="grid grid-cols-2 gap-2">
-                <button onclick="switchAytLesson('mat')" id="ayt-lesson-mat" class="py-2.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 text-white shadow cursor-pointer">Matematik</button>
-                <button onclick="switchAytLesson('fizik')" id="ayt-lesson-fizik" class="py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer">Fizik</button>
+        <!-- ================= YKS (AYT) BÖLÜMÜ ================= -->
+        <div id="pane-yks" class="tab-pane">
+            <div class="lesson-menu">
+                <button onclick="switchLesson('yks', 'mat')" id="yks-les-mat" class="lesson-btn active">Matematik</button>
+                <button onclick="switchLesson('yks', 'fizik')" id="yks-les-fizik" class="lesson-btn">Fizik</button>
             </div>
 
-            <div id="ayt-content-mat" class="sub-content active space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-indigo-700 tracking-wider">AYT Matematik Konuları</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('ayt-mat-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>📈 Türev ve İntegral</span> <span class="text-indigo-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <div id="yks-mat" class="lesson-pane active">
+                <div class="box">
+                    <div class="box-title">YKS (AYT) Matematik Konuları</div>
+                    <button onclick="openCard('yks-m1')" class="topic-item"><span>📈 Türev ve İntegral Kuralları</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <div id="topic-ayt-mat-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-indigo-700 font-black bg-indigo-50 px-3 py-1 rounded-lg">AYT Matematik • Konu Kartı</span>
-                        <button onclick="closeTopic('ayt-mat-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Türev Kuralları</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-indigo-600 font-bold block mb-1">Anlık Değişim Oranı:</b> Fonksiyonun bir noktadaki eğimini ve teğet denklemini bulma yöntemleri.
+                <div id="card-yks-m1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">YKS Matematik • Konu Kartı</span><button onclick="closeCard('yks-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Türev Kuralları</h2>
+                            <div class="card-body-text"><b>Anlık Değişim Oranı:</b> Fonksiyonun bir noktadaki eğimini bulma yöntemleri.</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="ayt-content-fizik" class="sub-content space-y-4">
-                <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-xl space-y-3">
-                    <h3 class="text-xs font-black uppercase text-rose-700 tracking-wider">AYT Fizik Konuları</h3>
-                    <div class="grid gap-2">
-                        <button onclick="openTopic('ayt-fizik-1')" class="w-full text-left p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-rose-50/50 text-xs sm:text-sm font-semibold text-slate-800 flex justify-between items-center cursor-pointer">
-                            <span>⚛️ Modern Fizik ve Görelilik</span> <span class="text-rose-600 text-xs font-bold">İncele →</span>
-                        </button>
-                    </div>
+            <div id="yks-fizik" class="lesson-pane">
+                <div class="box">
+                    <div class="box-title">YKS (AYT) Fizik Konuları</div>
+                    <button onclick="openCard('yks-f1')" class="topic-item"><span>⚛️ Modern Fizik ve Özel Görelilik</span><span class="arrow">İncele →</span></button>
                 </div>
-
-                <div id="topic-ayt-fizik-1" class="topic-detail bg-white border border-slate-200 rounded-3xl p-6 shadow-xl space-y-4">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                        <span class="text-xs uppercase tracking-wider text-rose-700 font-black bg-rose-50 px-3 py-1 rounded-lg">AYT Fizik • Konu Kartı</span>
-                        <button onclick="closeTopic('ayt-fizik-1')" class="text-xs font-bold text-slate-400 hover:text-slate-700 cursor-pointer">✕ Kapat</button>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Özel Görelilik</h2>
-                    <div class="space-y-3 text-sm text-slate-700">
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-                            <b class="text-rose-600 font-bold block mb-1">Einstein Postulaları:</b> Işık hızı tüm eylemsiz referans sistemlerinde sabittir.
+                <div id="card-yks-f1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">YKS Fizik • Konu Kartı</span><button onclick="closeCard('yks-f1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Özel Görelilik</h2>
+                            <div class="card-body-text"><b>Einstein Postulaları:</b> Işık hızı tüm eylemsiz referans sistemlerinde sabittir.</div>
                         </div>
                     </div>
                 </div>
@@ -263,62 +375,43 @@
         </div>
 
         <!-- FOOTER -->
-        <footer class="text-center text-xs font-semibold text-slate-500 py-6 space-y-1">
+        <footer>
             <p>Türkiye Yüzyılı Maarif Modeli Çok Katmanlı Eğitim Portalı</p>
             <p>© 2026 Maarif Akademi • Tüm Hakları Saklıdır.</p>
         </footer>
 
     </div>
 
-    <!-- JavaScript Kontrol Scriptleri -->
+    <!-- JavaScript Kontrolleri -->
     <script>
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            ['lgs', 'tyt', 'ayt'].forEach(t => {
-                const btn = document.getElementById('btn-' + t);
-                btn.className = "py-3 rounded-xl font-extrabold text-sm transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer";
+        function switchTab(tabId) {
+            ['lgs', 'tyt', 'yks'].forEach(t => {
+                document.getElementById('pane-' + t).classList.remove('active');
+                document.getElementById('btn-' + t).classList.remove('active');
             });
-            document.getElementById('tab-' + tabName).classList.add('active');
-            document.getElementById('btn-' + tabName).className = "py-3 rounded-xl font-extrabold text-sm transition-all bg-indigo-600 text-white shadow-md cursor-pointer";
+            document.getElementById('pane-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
         }
 
-        function switchLgsLesson(lesson) {
-            ['turkce', 'mat', 'fen'].forEach(l => {
-                document.getElementById('lgs-content-' + l).classList.remove('active');
-                document.getElementById('lgs-lesson-' + l).className = "py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer";
+        function switchLesson(category, lessonId) {
+            const lessons = category === 'lgs' ? ['turkce', 'mat', 'fen'] : (category === 'tyt' ? ['mat', 'turkce'] : ['mat', 'fizik']);
+            lessons.forEach(l => {
+                const pane = document.getElementById(category + '-' + l);
+                const btn = document.getElementById(category + '-les-' + l);
+                if(pane) pane.classList.remove('active');
+                if(btn) btn.classList.remove('active');
             });
-            document.getElementById('lgs-content-' + lesson).classList.add('active');
-            document.getElementById('lgs-lesson-' + lesson).className = "py-2.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 text-white shadow cursor-pointer";
+            document.getElementById(category + '-' + lessonId).classList.add('active');
+            document.getElementById(category + '-les-' + lessonId).classList.add('active');
         }
 
-        function switchTytLesson(lesson) {
-            ['mat', 'turkce'].forEach(l => {
-                document.getElementById('tyt-content-' + l).classList.remove('active');
-                document.getElementById('tyt-lesson-' + l).className = "py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer";
-            });
-            document.getElementById('tyt-content-' + lesson).classList.add('active');
-            document.getElementById('tyt-lesson-' + lesson).className = "py-2.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 text-white shadow cursor-pointer";
+        function openCard(cardId) {
+            document.getElementById('card-' + cardId).classList.add('active');
+            document.getElementById('card-' + cardId).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function switchAytLesson(lesson) {
-            ['mat', 'fizik'].forEach(l => {
-                document.getElementById('ayt-content-' + l).classList.remove('active');
-                document.getElementById('ayt-lesson-' + l).className = "py-2.5 px-3 rounded-xl text-xs font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 cursor-pointer";
-            });
-            document.getElementById('ayt-content-' + lesson).classList.add('active');
-            document.getElementById('ayt-lesson-' + lesson).className = "py-2.5 px-3 rounded-xl text-xs font-extrabold bg-indigo-600 text-white shadow cursor-pointer";
-        }
-
-        function openTopic(topicId) {
-            document.querySelectorAll('.sub-content').forEach(el => {
-                el.querySelectorAll('.topic-detail').forEach(card => card.classList.remove('active'));
-            });
-            document.getElementById('topic-' + topicId).classList.add('active');
-            document.getElementById('topic-' + topicId).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function closeTopic(topicId) {
-            document.getElementById('topic-' + topicId).classList.remove('active');
+        function closeCard(cardId) {
+            document.getElementById('card-' + cardId).classList.remove('active');
         }
     </script>
 </body>
