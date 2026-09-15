@@ -3,171 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LGS Maarif Akademi | Günlük Çalışma Paneli</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Türkiye Yüzyılı Maarif Akademi | Eğitim Portalı</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glow-effect {
-            box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.15);
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen py-8 px-4 sm:px-6 relative overflow-x-hidden">
+<body class="bg-slate-950 text-slate-100 min-h-screen py-6 px-4 sm:px-6 relative overflow-x-hidden">
 
-    <!-- Arka Plan Dekoratif Işık Efekti -->
+    <!-- Arka Plan Işık Efekti -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-2xl mx-auto space-y-6 relative z-10">
         
-        <!-- ÜST BAŞLIK & LOGO ALANI -->
-        <header class="text-center space-y-3">
-            <div class="inline-flex items-center gap-2 bg-indigo-500/10 text-indigo-400 text-xs font-bold px-3.5 py-1.5 rounded-full border border-indigo-500/20 shadow-inner">
+        <!-- ÜST BAŞLIK -->
+        <header class="text-center space-y-2">
+            <div class="inline-flex items-center gap-2 bg-indigo-500/10 text-indigo-400 text-xs font-bold px-3.5 py-1.5 rounded-full border border-indigo-500/20">
                 <span>✨</span>
                 <span>TÜRKİYE YÜZYILI MAARİF MODELİ</span>
             </div>
             <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-                LGS Maarif <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">Akademi</span>
+                Maarif <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-emerald-400">Akademi</span>
             </h1>
-            <p class="text-sm text-slate-400 max-w-md mx-auto">Beceri temelli yeni nesil sorular ve günlük konu analizleriyle hedefine bir adım daha yaklaş.</p>
+            <p class="text-sm text-slate-400">Hedefine uygun kademeyi seç, çalışmaya başla.</p>
         </header>
 
-        <!-- İLERLEME ÇUBUĞU -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg backdrop-blur-md">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-lg">
-                    📚
-                </div>
-                <div>
-                    <div class="text-xs text-slate-400 font-medium">Günlük Çalışma Serisi</div>
-                    <div class="text-sm font-bold text-white">1. Gün • Temel Beceri Kampı</div>
-                </div>
-            </div>
-            <div class="text-right">
-                <span class="text-xs bg-indigo-500/20 text-indigo-300 font-bold px-2.5 py-1 rounded-lg border border-indigo-500/30">Aktif Oturum</span>
-            </div>
+        <!-- KADEME SEÇİM SEKME BUTONLARI (LGS - TYT - AYT) -->
+        <div class="grid grid-cols-3 gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md">
+            <button onclick="switchTab('lgs')" id="btn-lgs" class="py-3 rounded-xl font-bold text-sm transition-all bg-indigo-600 text-white shadow-lg cursor-pointer">
+                LGS
+            </button>
+            <button onclick="switchTab('tyt')" id="btn-tyt" class="py-3 rounded-xl font-bold text-sm transition-all text-slate-400 hover:text-white cursor-pointer">
+                TYT
+            </button>
+            <button onclick="switchTab('ayt')" id="btn-ayt" class="py-3 rounded-xl font-bold text-sm transition-all text-slate-400 hover:text-white cursor-pointer">
+                AYT
+            </button>
         </div>
 
-        <!-- KART 1: GÜNÜN KONU ÖZETİ VE İNFOGRAFİK -->
-        <section class="bg-slate-900/90 border border-slate-800/80 rounded-3xl p-6 shadow-2xl glow-effect space-y-5 backdrop-blur-xl">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <div class="flex items-center gap-3">
-                    <span class="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-lg">🎯</span>
-                    <div>
-                        <span class="text-[11px] uppercase tracking-wider text-indigo-400 font-extrabold">Türkçe • Konu Analizi</span>
-                        <h2 class="text-base sm:text-lg font-bold text-white">Fiilimsiler ve Cümle Anlamı</h2>
+        <!-- ================= LGS SEKME İÇERİĞİ ================= -->
+        <div id="tab-lgs" class="tab-content active space-y-5">
+            <!-- Alt Kategori Modları (Konu / Soru) -->
+            <div class="flex gap-2">
+                <button onclick="switchSubTab('lgs', 'konu')" id="lgs-btn-konu" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800 text-indigo-400 border border-indigo-500/30 cursor-pointer">
+                    📖 LGS Konu Anlatımı
+                </button>
+                <button onclick="switchSubTab('lgs', 'soru')" id="lgs-btn-soru" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-900/60 text-slate-400 border border-slate-800 cursor-pointer">
+                    ✍️ LGS Beceri Sorusu
+                </button>
+            </div>
+
+            <!-- LGS Konu Alanı -->
+            <div id="lgs-konu-panel" class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-xs uppercase tracking-wider text-indigo-400 font-extrabold">Türkçe • 8. Sınıf</span>
+                    <span class="bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-1 rounded-lg">Temel Kamp</span>
+                </div>
+                <h2 class="text-lg font-bold text-white">Fiilimsiler ve Metin Analizi</h2>
+                <div class="space-y-3 text-sm text-slate-300">
+                    <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/60">
+                        <b>1. İsim-Fiil:</b> `-ma, -ış, -mak` ekleriyle oluşur, eylem anlamını korur.
+                    </div>
+                    <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/60">
+                        <b>2. Sıfat-Fiil:</b> `Anası mezar dikecekmiş` ekleriyle cümlede sıfat görevindedir.
                     </div>
                 </div>
             </div>
 
-            <!-- Konu Özeti Kartları -->
-            <div class="space-y-3 text-sm text-slate-300">
-                <div class="flex items-start gap-3.5 bg-slate-950/60 p-4 rounded-2xl border border-slate-800/60 transition-all hover:border-slate-700">
-                    <span class="bg-indigo-500 text-slate-950 font-black text-xs w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 shadow-md">1</span>
-                    <p class="leading-relaxed"><b>Fiilimsiler</b> (isim-fiil, sıfat-fiil, zarf-fiil), eylem anlamını koruyarak cümlede farklı görevler üstlenir ve anlamsal bağlar kurar.</p>
+            <!-- LGS Soru Alanı (Başlangıçta Gizli) -->
+            <div id="lgs-soru-panel" class="hidden bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-xs uppercase tracking-wider text-emerald-400 font-extrabold">Türkçe • Yeni Nesil Soru</span>
+                    <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-1 rounded-lg">Mantık & Muhakeme</span>
                 </div>
-                <div class="flex items-start gap-3.5 bg-slate-950/60 p-4 rounded-2xl border border-slate-800/60 transition-all hover:border-slate-700">
-                    <span class="bg-indigo-500 text-slate-950 font-black text-xs w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 shadow-md">2</span>
-                    <p class="leading-relaxed">Bir kelimenin fiilimsi mi yoksa kalıcı isim mi olduğu ezberle değil, <b>metindeki kullanım bağlamı</b> incelenerek bulunur.</p>
+                <div class="text-sm text-slate-200 bg-slate-950/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+                    <p class="font-mono text-xs text-indigo-300">(I) Sürdürülebilir bir gelecek kurmak amacıyla... (II) Güneş ve rüzgâr gibi tükenmeyen kaynaklar...</p>
+                    <p class="font-bold text-white">Bu metindeki fiilimsilerle ilgili aşağıdakilerden hangisi söylenemez?</p>
                 </div>
-                <div class="flex items-start gap-3.5 bg-slate-950/60 p-4 rounded-2xl border border-slate-800/60 transition-all hover:border-slate-700">
-                    <span class="bg-indigo-500 text-slate-950 font-black text-xs w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 shadow-md">3</span>
-                    <p class="leading-relaxed"><b>Zarf-fiiller</b> metne durum veya zaman anlamı katarak yazarın ifade biçimini ve anlatım akışını doğrudan güçlendirir.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- KART 2: İNTERAKTİF YENİ NESİL SORU PANELİ -->
-        <section class="bg-slate-900/90 border border-slate-800/80 rounded-3xl p-6 shadow-2xl glow-effect space-y-5 backdrop-blur-xl">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
-                    💡
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-white">Günün Beceri Temelli Sorusu</h3>
-                    <p class="text-xs text-slate-400">LGS Mantık ve Muhakeme Tarzı</p>
+                <div class="space-y-2" id="lgs-options">
+                    <button onclick="checkLgsAnswer(0, false)" class="lgs-opt w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800 text-xs sm:text-sm text-slate-200 transition-all cursor-pointer">
+                        <b>A)</b> I. cümlede isim-fiil amaç anlamı katmıştır.
+                    </button>
+                    <button onclick="checkLgsAnswer(1, false)" class="lgs-opt w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800 text-xs sm:text-sm text-slate-200 transition-all cursor-pointer">
+                        <b>B)</b> II. cümlede "tükenmeyen" sıfat-fiildir.
+                    </button>
+                    <button onclick="checkLgsAnswer(2, true)" class="lgs-opt w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800 text-xs sm:text-sm text-slate-200 transition-all cursor-pointer">
+                        <b>C)</b> Kalıcı isim olan sözcük vurgulanmıştır. (Doğru Cevap Örneği)
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <!-- Soru Metni -->
-            <div class="text-sm text-slate-200 leading-relaxed bg-slate-950/80 p-5 rounded-2xl border border-slate-800/80 shadow-inner space-y-3">
-                <p class="font-mono text-xs text-indigo-300 leading-relaxed">(I) Sürdürülebilir bir gelecek kurmak amacıyla yenilenebilir enerji kaynaklarına yönelen toplumlar... (II) Güneş ve rüzgâr gibi tükenmeyen kaynaklardan yararlanılarak üretilen elektrik... (III) Teknoloji ilerledikçe yeşil enerjinin maliyeti düşmektedir. (IV) Geçmişten günümüze aktarılan bu sorumluluk, yarınlara yaşanabilir bir dünya bırakmanın yoludur.</p>
-                <p class="font-bold text-white pt-2 border-t border-slate-800/80">Bu metindeki fiilimsilerin katkısıyla ilgili aşağıdakilerden hangisi <span class="text-indigo-400 underline decoration-indigo-500/50 underline-offset-4">söylenemez</span>?</p>
-            </div>
-
-            <!-- Şıklar / İnteraktif Butonlar -->
-            <div class="space-y-3" id="options-container">
-                <button onclick="checkAnswer(0, false)" class="option-btn w-full text-left p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/60 hover:border-slate-700 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer group">
-                    <span class="group-hover:translate-x-1 transition-transform"><b>A)</b> I. cümlede isim-fiil ("kurmak"), edatla öbekleşerek amaç-sonuç anlamı katmıştır.</span>
-                    <span class="status-icon text-xs font-bold pl-2"></span>
+        <!-- ================= TYT SEKME İÇERİĞİ ================= -->
+        <div id="tab-tyt" class="tab-content space-y-5">
+            <div class="flex gap-2">
+                <button onclick="switchSubTab('tyt', 'konu')" id="tyt-btn-konu" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800 text-indigo-400 border border-indigo-500/30 cursor-pointer">
+                    📖 TYT Konu Anlatımı
                 </button>
-                <button onclick="checkAnswer(1, false)" class="option-btn w-full text-left p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/60 hover:border-slate-700 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer group">
-                    <span class="group-hover:translate-x-1 transition-transform"><b>B)</b> II. cümlede "tükenmeyen" sözcüğü sıfat-fiil görevi üstlenirken "yararlanılarak" zarf-fiildir.</span>
-                    <span class="status-icon text-xs font-bold pl-2"></span>
-                </button>
-                <button onclick="checkAnswer(2, false)" class="option-btn w-full text-left p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/60 hover:border-slate-700 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer group">
-                    <span class="group-hover:translate-x-1 transition-transform"><b>C)</b> III. cümlede "ilerledikçe" zarf-fiili, temel cümleye zaman/süreç boyutu katmıştır.</span>
-                    <span class="status-icon text-xs font-bold pl-2"></span>
-                </button>
-                <button onclick="checkAnswer(3, true)" class="option-btn w-full text-left p-4 rounded-2xl border border-slate-800 bg-slate-950/50 hover:bg-slate-800/60 hover:border-slate-700 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer group">
-                    <span class="group-hover:translate-x-1 transition-transform"><b>D)</b> IV. cümlede "aktarılan" sıfat-fiildir; "bırakmanın" ise eylem anlamını yitirip kalıcı isim olmuştur.</span>
-                    <span class="status-icon text-xs font-bold pl-2"></span>
+                <button onclick="switchSubTab('tyt', 'soru')" id="tyt-btn-soru" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-900/60 text-slate-400 border border-slate-800 cursor-pointer">
+                    ✍️ TYT Paragraf / Matematik
                 </button>
             </div>
 
-            <!-- Gerekçeli Açıklama Kutusu (Başlangıçta Gizli) -->
-            <div id="explanation-box" class="hidden mt-4 p-5 rounded-2xl border border-emerald-500/30 bg-emerald-950/20 text-sm space-y-2 backdrop-blur-md">
-                <div class="flex items-center gap-2 text-emerald-400 font-bold">
-                    <span>✨</span>
-                    <span>Maarif Modeli Çözüm ve Gerekçesi</span>
+            <div id="tyt-konu-panel" class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-xs uppercase tracking-wider text-amber-400 font-extrabold">Matematik • TYT Temel Kavramlar</span>
+                    <span class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-1 rounded-lg">Önemli</span>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
-                    <b>Doğru Cevap D seçeneğidir.</b> IV numaralı cümlede geçen "bırakmanın" kelimesi `-ma` isim-fiil ekini almıştır ve eylem anlamını (isim-fiil özelliğini) korumaktadır, kalıcı isim olmamıştır. Diğer seçeneklerdeki fiilimsi analizleri tamamen doğrudur.
-                </p>
+                <h2 class="text-lg font-bold text-white">Sayı Kümeleri ve Asal Çarpanlar</h2>
+                <div class="space-y-3 text-sm text-slate-300">
+                    <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/60">
+                        <b>1. Tek ve Çift Sayılar:</b> Temel işlem kuralları ve ÖSYM tarzı soru kalıpları analizi.
+                    </div>
+                </div>
             </div>
-        </section>
+
+            <div id="tyt-soru-panel" class="hidden bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-xs uppercase tracking-wider text-amber-400 font-extrabold">TYT • Beceri Sorusu</span>
+                    <span class="bg-amber-500/20 text-amber-300 text-xs px-2.5 py-1 rounded-lg">ÖSYM Tarzı</span>
+                </div>
+                <div class="text-sm text-slate-200 bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <p class="font-bold text-white mb-2">Aşağıdaki sayı gruplarından hangisi aralarında asal değildir?</p>
+                    <p class="text-xs text-slate-400">Seçenekleri yakında interaktif olarak güncelleyeceğiz.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= AYT SEKME İÇERİĞİ ================= -->
+        <div id="tab-ayt" class="tab-content space-y-5">
+            <div class="flex gap-2">
+                <button onclick="switchSubTab('ayt', 'konu')" id="ayt-btn-konu" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800 text-indigo-400 border border-indigo-500/30 cursor-pointer">
+                    📖 AYT Konu Anlatımı
+                </button>
+                <button onclick="switchSubTab('ayt', 'soru')" id="ayt-btn-soru" class="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-900/60 text-slate-400 border border-slate-800 cursor-pointer">
+                    ✍️ AYT İleri Düzey Soru
+                </button>
+            </div>
+
+            <div id="ayt-konu-panel" class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-xs uppercase tracking-wider text-rose-400 font-extrabold">Fizik • AYT Modern Fizik</span>
+                    <span class="bg-rose-500/20 text-rose-300 text-xs px-2.5 py-1 rounded-lg">İleri Düzey</span>
+                </div>
+                <h2 class="text-lg font-bold text-white">Özel Görelilik ve Kuantum Boyutu</h2>
+                <div class="space-y-3 text-sm text-slate-300">
+                    <div class="bg-slate-950/60 p-3.5 rounded-2xl border border-slate-800/60">
+                        <b>1. Lorentz Dönüşümleri:</b> Zaman genişlemesi ve uzunluk büzülmesi formül türevleri.
+                    </div>
+                </div>
+            </div>
+
+            <div id="ayt-soru-panel" class="hidden bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <span class="text-xs uppercase tracking-wider text-rose-400 font-extrabold">AYT • Fizik Soru Paneli</span>
+                    <span class="bg-rose-500/20 text-rose-300 text-xs px-2.5 py-1 rounded-lg">Yüksek Zorluk</span>
+                </div>
+                <div class="text-sm text-slate-200 bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                    <p class="font-bold text-white mb-2">Işıktan hızlı hareket eden parçacıklar teorik olarak hangi ışıumayı yapar?</p>
+                    <p class="text-xs text-slate-400">Çözüm ve simülasyon modülü eklenecektir.</p>
+                </div>
+            </div>
+        </div>
 
         <!-- FOOTER -->
         <footer class="text-center text-xs text-slate-500 py-6 space-y-1">
-            <p>Türkiye Yüzyılı Maarif Modeli Uyumlu Eğitim Portalı</p>
-            <p>© 2026 LGS Maarif Akademi • Tüm Hakları Saklıdır.</p>
+            <p>Türkiye Yüzyılı Maarif Modeli Çok Katmanlı Eğitim Portalı</p>
+            <p>© 2026 Maarif Akademi • Tüm Hakları Saklıdır.</p>
         </footer>
 
     </div>
 
-    <!-- İnteraktif Kontrol Scripti -->
+    <!-- JavaScript Kontrol Scriptleri -->
     <script>
-        let answered = false;
-
-        function checkAnswer(selectedIndex, isCorrect) {
-            if (answered) return;
-            answered = true;
-
-            const buttons = document.querySelectorAll('.option-btn');
-
-            buttons.forEach((btn, index) => {
-                btn.classList.remove('hover:bg-slate-800/60', 'hover:border-slate-700', 'cursor-pointer');
-                btn.style.pointerEvents = 'none';
-
-                const icon = btn.querySelector('.status-icon');
-
-                if (index === 3) {
-                    btn.classList.remove('border-slate-800', 'bg-slate-950/50');
-                    btn.classList.add('border-emerald-500/80', 'bg-emerald-950/30', 'text-emerald-200', 'shadow-lg', 'shadow-emerald-950/50');
-                    icon.textContent = '✅ Doğru';
-                    icon.className = 'status-icon text-emerald-400 text-xs font-bold shrink-0';
-                } else if (index === selectedIndex && !isCorrect) {
-                    btn.classList.remove('border-slate-800', 'bg-slate-950/50');
-                    btn.classList.add('border-rose-500/80', 'bg-rose-950/30', 'text-rose-200', 'shadow-lg', 'shadow-rose-950/50');
-                    icon.textContent = '❌ Yanlış';
-                    icon.className = 'status-icon text-rose-400 text-xs font-bold shrink-0';
-                }
+        function switchTab(tabName) {
+            // Tüm sekmeleri gizle
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Tüm üst butonların stilini sıfırla
+            ['lgs', 'tyt', 'ayt'].forEach(t => {
+                const btn = document.getElementById('btn-' + t);
+                btn.className = "py-3 rounded-xl font-bold text-sm transition-all text-slate-400 hover:text-white cursor-pointer";
             });
 
-            const expBox = document.getElementById('explanation-box');
-            expBox.classList.remove('hidden');
-            expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Seçilen sekmeyi aç ve butonu vurgula
+            document.getElementById('tab-' + tabName).classList.add('active');
+            document.getElementById('btn-' + tabName).className = "py-3 rounded-xl font-bold text-sm transition-all bg-indigo-600 text-white shadow-lg cursor-pointer";
+        }
+
+        function switchSubTab(cat, mode) {
+            const konuPanel = document.getElementById(cat + '-konu-panel');
+            const soruPanel = document.getElementById(cat + '-soru-panel');
+            const btnKonu = document.getElementById(cat + '-btn-konu');
+            const btnSoru = document.getElementById(cat + '-btn-soru');
+
+            if (mode === 'konu') {
+                konuPanel.classList.remove('hidden');
+                soruPanel.classList.add('hidden');
+                btnKonu.className = "flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800 text-indigo-400 border border-indigo-500/30 cursor-pointer";
+                btnSoru.className = "flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-900/60 text-slate-400 border border-slate-800 cursor-pointer";
+            } else {
+                konuPanel.classList.add('hidden');
+                soruPanel.classList.remove('hidden');
+                btnSoru.className = "flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-800 text-indigo-400 border border-indigo-500/30 cursor-pointer";
+                btnKonu.className = "flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-900/60 text-slate-400 border border-slate-800 cursor-pointer";
+            }
+        }
+
+        function checkLgsAnswer(index, isCorrect) {
+            const opts = document.querySelectorAll('.lgs-opt');
+            opts.forEach((btn, i) => {
+                btn.style.pointerEvents = 'none';
+                if (i === 2) {
+                    btn.classList.add('border-emerald-500', 'bg-emerald-950/30', 'text-emerald-200');
+                } else if (i === index && !isCorrect) {
+                    btn.classList.add('border-rose-500', 'bg-rose-950/30', 'text-rose-200');
+                }
+            });
         }
     </script>
 </body>
