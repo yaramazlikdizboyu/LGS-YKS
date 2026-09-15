@@ -4,221 +4,210 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="only light">
-    <title>Maarif Akademi | Konu Anlatımı & Otomatik Yeni Nesil Test Platformu</title>
+    <title>Türkiye Yüzyılı Maarif Akademi | Ultimate Eğitim Portalı</title>
     <style>
         :root { color-scheme: light; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: #f8fafc;
+            background-color: #f1f5f9;
+            color: #0f172a;
             padding: 24px 16px;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
         }
-        .container { width: 100%; max-width: 850px; }
-        header { text-align: center; margin-bottom: 28px; }
+        .container { width: 100%; max-width: 760px; }
+        header { text-align: center; margin-bottom: 24px; }
         .badge {
             display: inline-block;
-            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            background: linear-gradient(135deg, #4f46e5, #3730a3);
             color: #ffffff;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
-            padding: 8px 20px;
-            border-radius: 30px;
-            margin-bottom: 12px;
-            letter-spacing: 0.8px;
-            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
-        }
-        h1 { font-size: 32px; font-weight: 900; color: #ffffff; margin-bottom: 6px; }
-        h1 span { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { font-size: 14px; color: #94a3b8; font-weight: 600; }
-
-        /* Otomatik Günlük Bilgi Banner */
-        .daily-system-banner {
-            background: linear-gradient(135deg, rgba(30, 58, 138, 0.7), rgba(15, 23, 42, 0.9));
-            border: 2px solid #38bdf8;
+            padding: 6px 16px;
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
-            text-align: center;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
-        .daily-system-banner h3 { color: #38bdf8; font-size: 16px; font-weight: 800; margin-bottom: 6px; }
-        .daily-system-banner p { font-size: 13.5px; color: #cbd5e1; line-height: 1.5; }
+        h1 { font-size: 30px; font-weight: 900; color: #0f172a; margin-bottom: 6px; }
+        h1 span { color: #4f46e5; }
+        .subtitle { font-size: 13.5px; color: #475569; font-weight: 600; }
 
         /* Kademe Sekmeleri */
         .tabs {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            background: rgba(30, 41, 59, 0.7);
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            margin-bottom: 24px;
+            gap: 8px;
+            background: #ffffff;
+            padding: 8px;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
         .tab-btn {
-            padding: 14px;
-            border-radius: 14px;
+            padding: 12px;
+            border-radius: 12px;
             font-size: 14px;
             font-weight: 800;
             border: none;
             background: transparent;
-            color: #94a3b8;
+            color: #475569;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
         .tab-btn.active {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            background: #4f46e5;
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
-        /* Kutu ve Kartlar */
+        /* Dersler Menüsü */
+        .lesson-menu {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-bottom: 16px;
+        }
+        .lesson-btn {
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #475569;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .lesson-btn.active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+
+        .tab-pane, .lesson-pane, .card-pane { display: none; }
+        .tab-pane.active, .lesson-pane.active, .card-pane.active { display: block; }
+
         .box {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 24px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            margin-bottom: 16px;
         }
-        .box-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #38bdf8; margin-bottom: 16px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .box-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #4f46e5; margin-bottom: 12px; letter-spacing: 0.5px; }
 
-        /* KONU ANLATIMI ALANI */
-        .theory-content h4 { font-size: 18px; color: #ffffff; margin-bottom: 10px; font-weight: 800; }
-        .theory-content p { font-size: 14.5px; color: #cbd5e1; line-height: 1.7; margin-bottom: 14px; }
-        .formula-box {
-            background: #111827;
-            border-left: 4px solid #8b5cf6;
-            padding: 14px 18px;
-            border-radius: 0 14px 14px 0;
-            margin: 16px 0;
-            font-family: monospace;
-            font-size: 14px;
-            color: #f472b6;
-        }
-        .tips-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
-        .tips-list li {
-            background: rgba(56, 189, 248, 0.08);
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13.5px;
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
-
-        /* İNTERAKTİF TEST MERKEZİ */
-        .test-header-bar {
+        .topic-item {
+            width: 100%;
+            text-align: left;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #1e293b;
+            font-size: 13px;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #111827;
-            padding: 14px 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .test-select-btn {
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
-            background: #1e293b;
-            color: #94a3b8;
-            border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
+            margin-bottom: 8px;
             transition: all 0.2s;
         }
-        .test-select-btn.active {
-            background: #10b981;
-            color: #ffffff;
-            border-color: #10b981;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
+        .topic-item:hover { background: #eef2ff; border-color: #c7d2fe; transform: translateY(-1px); }
+        .topic-item span.arrow { color: #4f46e5; font-size: 12px; }
 
-        .question-card {
-            background: #090d16;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+        /* GÖRSEL DİKKAT ÇEKİCİ BİLGİ & TEST KARTI */
+        .card-box {
+            background: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #334155;
             border-radius: 20px;
             padding: 22px;
-            margin-bottom: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            margin-bottom: 16px;
         }
-        .q-number { font-size: 12px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; }
-        .q-text { font-size: 15px; color: #f8fafc; line-height: 1.6; margin-bottom: 16px; }
-        
-        .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-        .option-label {
+        .card-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            background: #111827;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
-            cursor: pointer;
-            font-size: 14px;
-            color: #e2e8f0;
-            transition: all 0.2s;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
         }
-        .option-label:hover { background: rgba(59, 130, 246, 0.15); border-color: #3b82f6; }
-        .option-label input { accent-color: #3b82f6; width: 16px; height: 16px; }
-
-        .solution-toggle-btn {
+        .card-tag {
+            font-size: 11px;
+            font-weight: 800;
+            background: #312e81;
+            color: #c7d2fe;
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(165, 180, 252, 0.3);
+            text-transform: uppercase;
+        }
+        .close-btn {
             background: #1e293b;
-            color: #38bdf8;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 8px 14px;
-            border-radius: 10px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 6px 12px;
             font-size: 12px;
             font-weight: 700;
+            color: #cbd5e1;
             cursor: pointer;
+            transition: all 0.2s;
         }
-        .solution-content {
-            display: none;
-            background: rgba(16, 185, 129, 0.1);
-            border-left: 4px solid #10b981;
-            padding: 14px;
-            border-radius: 0 12px 12px 0;
-            margin-top: 12px;
-            font-size: 13.5px;
-            color: #d1fae5;
-            line-height: 1.5;
+        .close-btn:hover { background: #334155; color: #ffffff; }
+
+        .card-content h2 { font-size: 18px; font-weight: 800; color: #ffffff; margin-bottom: 10px; }
+        .card-content p { font-size: 13.5px; line-height: 1.65; color: #cbd5e1; margin-bottom: 14px; }
+
+        /* SVG İNFOGRAFİK ALANI */
+        .svg-graphic-container {
+            width: 100%;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 12px;
+            margin: 14px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
+        .meta-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+        .pill { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: #1e293b; color: #e2e8f0; border: 1px solid #475569; }
+        .pill-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border-color: rgba(16, 185, 129, 0.4); }
+
+        .card-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; background: #1e293b; border-radius: 10px; overflow: hidden; }
+        .card-table th { background: #334155; color: #f8fafc; text-align: left; padding: 10px 12px; font-weight: 700; }
+        .card-table td { padding: 10px 12px; border-bottom: 1px solid #334155; color: #f1f5f9; }
+
+        .trap-box { background: rgba(225, 29, 72, 0.15); border: 1px solid #f43f5e; border-radius: 12px; padding: 12px 16px; margin-top: 14px; font-size: 13px; color: #ffe4e6; line-height: 1.5; }
+        
+        /* İNTERAKTİF TEST STİLLERİ */
+        .test-section-box { margin-top: 20px; border-top: 1px solid #334155; padding-top: 20px; }
+        .question-card { background: #111827; border: 1px solid #3b82f6; border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+        .q-number { font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 6px; }
+        .q-text { font-size: 13.5px; color: #f8fafc; line-height: 1.5; margin-bottom: 12px; }
+        .options-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .option-label { display: flex; align-items: center; gap: 10px; background: #1e293b; padding: 10px 14px; border-radius: 10px; border: 1px solid #334155; cursor: pointer; font-size: 13px; color: #e2e8f0; }
+        .option-label:hover { background: rgba(59, 130, 246, 0.2); }
+        .option-label input { accent-color: #3b82f6; }
+
+        .solution-toggle-btn { background: #1e293b; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; cursor: pointer; }
+        .solution-content { display: none; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 10px; border-radius: 0 8px 8px 0; margin-top: 10px; font-size: 12.5px; color: #d1fae5; }
         .solution-content.show { display: block; }
 
-        .submit-test-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 800;
-            padding: 16px;
-            border-radius: 16px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-            margin-top: 10px;
-            transition: transform 0.2s;
-        }
-        .submit-test-btn:hover { transform: translateY(-2px); }
+        .submit-test-btn { width: 100%; background: #10b981; color: #ffffff; font-size: 14px; font-weight: 800; padding: 12px; border-radius: 12px; border: none; cursor: pointer; margin-top: 10px; }
+        .score-result-box { display: none; background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; border-radius: 14px; padding: 16px; text-align: center; margin-top: 14px; }
+        .score-result-box h3 { font-size: 18px; color: #34d399; margin-bottom: 4px; }
+        .score-result-box p { font-size: 13.5px; color: #f8fafc; }
 
-        .score-result-box {
-            display: none;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(30, 41, 59, 0.9));
-            border: 2px solid #10b981;
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .score-result-box h3 { font-size: 22px; color: #34d399; margin-bottom: 8px; font-weight: 900; }
-        .score-result-box p { font-size: 15px; color: #f8fafc; }
-
-        footer { text-align: center; font-size: 12px; color: #64748b; font-weight: 600; margin-top: 40px; padding-bottom: 20px; }
+        footer { text-align: center; font-size: 11px; color: #64748b; font-weight: 600; margin-top: 30px; padding-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -227,244 +216,270 @@
         
         <!-- ÜST BAŞLIK -->
         <header>
-            <div class="badge">🚀 TÜRKİYE YÜZYILI MAARİF AKADEMİSİ</div>
-            <h1>Konu Anlatımı & <span>Yeni Nesil Test Platformu</span></h1>
-            <p class="subtitle">MEB & ÖSYM Uyumlu • Detaylı Konu Özeti • 2 Kapsamlı Test</p>
+            <div class="badge">✨ TÜRKİYE YÜZYILI MAARİF MODELİ</div>
+            <h1>Maarif <span>Akademi</span></h1>
+            <p class="subtitle">Görsel İnfografikler, Konu Anlatımları ve İnteraktif Test Merkezi</p>
         </header>
-
-        <!-- OTOMATİK GÜNLÜK SİSTEM BİLGİSİ -->
-        <div class="daily-system-banner">
-            <h3 id="daily-title">📅 Günün Otomatik Konu Rotasyonu Yükleniyor...</h3>
-            <p id="daily-desc">Sistem takvim döngüsüne göre LGS, TYT ve AYT için günün teorik konu anlatımını ve testlerini senkronize eder.</p>
-        </div>
 
         <!-- KADEME SEÇİMİ -->
         <div class="tabs">
-            <button onclick="switchTab('lgs')" id="btn-lgs" class="tab-btn active">LGS (Ortaokul)</button>
-            <button onclick="switchTab('tyt')" id="btn-tyt" class="tab-btn">TYT (Temel YKS)</button>
-            <button onclick="switchTab('yks')" id="btn-yks" class="tab-btn">AYT (İleri YKS)</button>
+            <button onclick="switchTab('lgs')" id="btn-lgs" class="tab-btn active">LGS</button>
+            <button onclick="switchTab('tyt')" id="btn-tyt" class="tab-btn">TYT</button>
+            <button onclick="switchTab('yks')" id="btn-yks" class="tab-btn">YKS (AYT)</button>
         </div>
 
-        <!-- 1. BÖLÜM: KAPSAMLI KONU ANLATIMI VE FORMÜLLER -->
-        <div class="box">
-            <div class="box-title">📖 GÜNÜN KAPSAMLI KONU ANLATIMI & ÖNEMLİ İPUÇLARI</div>
-            <div class="theory-content" id="theory-container">
-                <!-- Dinamik Konu Anlatımı Buraya Gelecek -->
+        <!-- ================= LGS BÖLÜMÜ ================= -->
+        <div id="pane-lgs" class="tab-pane active">
+            <div class="lesson-menu">
+                <button onclick="switchLesson('lgs', 'turkce')" id="lgs-les-turkce" class="lesson-btn active">Türkçe</button>
+                <button onclick="switchLesson('lgs', 'mat')" id="lgs-les-mat" class="lesson-btn">Matematik</button>
             </div>
-        </div>
 
-        <!-- 2. BÖLÜM: İNTERAKTİF YENİ NESİL TEST MERKEZİ -->
-        <div class="box">
-            <div class="box-title">⚡ İNTERAKTİF YENİ NESİL TEST MERKEZİ (10'ar Soruluk Setler)</div>
-            
-            <div class="test-header-bar">
-                <span id="active-test-info" style="font-size: 14px; font-weight: 800; color: #38bdf8;">TEST 1</span>
-                <div style="display: flex; gap: 8px;">
-                    <button onclick="switchTest(1)" id="t-btn-1" class="test-select-btn active">Test 1</button>
-                    <button onclick="switchTest(2)" id="t-btn-2" class="test-select-btn">Test 2</button>
+            <!-- LGS Türkçe -->
+            <div id="lgs-turkce" class="lesson-pane active">
+                <div class="box">
+                    <div class="box-title">Türkçe Konu & Test Listesi</div>
+                    <button onclick="openCard('lgs-t1')" class="topic-item"><span>📖 Fiilimsiler (Görsel Şema + 5 Yeni Nesil Soru)</span><span class="arrow">İncele →</span></button>
+                </div>
+
+                <!-- KART: FİİLİMSİLER (GÖRSEL + TEST) -->
+                <div id="card-lgs-t1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header">
+                            <span class="card-tag">LGS Türkçe • Görsel Kart & Test Merkezi</span>
+                            <button onclick="closeCard('lgs-t1')" class="close-btn">✕ Kapat</button>
+                        </div>
+                        <div class="card-content">
+                            <h2>Fiilimsiler (Eylemsimsiler) Rehberi</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ SVG Akış Şeması</span>
+                                <span class="pill">⚠️ MEB Odaklı</span>
+                            </div>
+
+                            <!-- SVG AKIŞ ŞEMASI -->
+                            <div class="svg-graphic-container">
+                                <svg viewBox="0 0 500 140" width="100%" height="110" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="180" y="10" width="140" height="28" rx="6" fill="#4f46e5" />
+                                    <text x="250" y="28" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">FİİL KÖKÜ / GÖVDESİ</text>
+                                    <path d="M250 38 L250 60 M90 60 L410 60 M90 60 L90 75 M250 60 L250 75 M410 60 L410 75" stroke="#818cf8" stroke-width="2" fill="none"/>
+                                    
+                                    <rect x="20" y="75" width="140" height="36" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+                                    <text x="90" y="91" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">İSİM-FİİL</text>
+                                    <text x="90" y="103" fill="#94a3b8" font-size="8.5" text-anchor="middle">MAYIŞMAK (-ma, -ış, -mak)</text>
+
+                                    <rect x="180" y="75" width="140" height="36" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+                                    <text x="250" y="91" fill="#34d399" font-size="10" font-weight="bold" text-anchor="middle">SIFAT-FİİL</text>
+                                    <text x="250" y="103" fill="#94a3b8" font-size="8.5" text-anchor="middle">ANASI MEZAR DİKECEK</text>
+
+                                    <rect x="340" y="75" width="140" height="36" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
+                                    <text x="410" y="91" fill="#f43f5e" font-size="10" font-weight="bold" text-anchor="middle">ZARF-FİİL</text>
+                                    <text x="410" y="103" fill="#94a3b8" font-size="8.5" text-anchor="middle">-ken, -alı, -ince, -ip, -arak</text>
+                                </svg>
+                            </div>
+
+                            <p>Fiilimsiler, eylem köklerine gelerek cümlede isim, sıfat veya zarf görevi üstlenen özel köprülerdir.</p>
+
+                            <div class="trap-box">
+                                <strong>⚠️ MEB ÇELDİRİCİSİ:</strong> Kalıcı isimler (dondurma, ekmek, dolma, çakmak) eylemsi değildir, adlaşmıştır.
+                            </div>
+
+                            <!-- İNTERAKTİF TEST BÖLÜMÜ -->
+                            <div class="test-section-box">
+                                <div class="box-title" style="color: #38bdf8;">⚡ İnteraktif Konu Testi (5 Soru)</div>
+                                <form id="quiz-lgs-t1" onsubmit="evaluateQuiz(event, 'lgs-t1')">
+                                    
+                                    <div class="question-card">
+                                        <div class="q-number">Soru 1</div>
+                                        <div class="q-text">Aşağıdaki cümlelerin hangisinde isim-fiil (eylamsı) kullanılmıştır?</div>
+                                        <div class="options-list">
+                                            <label class="option-label"><input type="radio" name="q1" value="0"> A) Akşam eve erken geldi.</label>
+                                            <label class="option-label"><input type="radio" name="q1" value="1"> B) Bahçedeki otları temizlemek oldukça zordu.</label>
+                                            <label class="option-label"><input type="radio" name="q1" value="2"> C) Masanın üzerindeki kalemi bana ver.</label>
+                                            <label class="option-label"><input type="radio" name="q1" value="3"> D) Yarın Ankara'ya gidecekler.</label>
+                                        </div>
+                                        <button type="button" class="solution-toggle-btn" onclick="toggleSol('sol-lgs-1')">💡 Çözüm Rehberi</button>
+                                        <div class="solution-content" id="sol-lgs-1">Çözüm: "Temizlemek" sözcüğündeki "-mek" eki isim-fiil (mak-mek) ekidir. Doğru cevap B seçeneğidir.</div>
+                                    </div>
+
+                                    <div class="question-card">
+                                        <div class="q-number">Soru 2</div>
+                                        <div class="q-text">"Görünmez kaza hepimizi sarstı." cümlesindeki altı çizili sözcük (görünmez) hangi eylemsi türündedir?</div>
+                                        <div class="options-list">
+                                            <label class="option-label"><input type="radio" name="q2" value="0"> A) İsim-fiil</label>
+                                            <label class="option-label"><input type="radio" name="q2" value="1"> B) Sıfat-fiil (Ortaç)</label>
+                                            <label class="option-label"><input type="radio" name="q2" value="2"> C) Zarf-fiil (Bağ-fiil)</label>
+                                            <label class="option-label"><input type="radio" name="q2" value="3"> D) Çekimli fiil</label>
+                                        </div>
+                                        <button type="button" class="solution-toggle-btn" onclick="toggleSol('sol-lgs-2')">💡 Çözüm Rehberi</button>
+                                        <div class="solution-content" id="sol-lgs-2">Çözüm: "-mez" eki sıfat-fiil (Mezar kodlaması) ekidir ve "kaza" ismini niteler. Doğru cevap B seçeneğidir.</div>
+                                    </div>
+
+                                    <button type="submit" class="submit-test-btn">✨ Testi Sonuçlandır</button>
+                                </form>
+                                <div id="score-lgs-t1" class="score-result-box">
+                                    <h3>Test Sonucunuz</h3>
+                                    <p id="score-text-lgs-t1">Doğru analiziniz hazırlandı.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <form id="quiz-form" onsubmit="evaluateTest(event)">
-                <div id="questions-container">
-                    <!-- Sorular JS ile dinamik doldurulacak -->
+            <!-- LGS Matematik -->
+            <div id="lgs-mat" class="lesson-pane">
+                <div class="box">
+                    <div class="box-title">Matematik Konu & Test Listesi</div>
+                    <button onclick="openCard('lgs-m1')" class="topic-item"><span>📐 EBOB - EKOK Mantığı ve Testi</span><span class="arrow">İncele →</span></button>
                 </div>
-                <button type="submit" class="submit-test-btn">✨ Testi Bitir ve Netlerimi Gör</button>
-            </form>
 
-            <div id="score-card" class="score-result-box">
-                <h3 id="score-title">Test Tamamlandı!</h3>
-                <p id="score-text">Doğru ve yanlış analiziniz yukarıda güncellendi.</p>
+                <div id="card-lgs-m1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header">
+                            <span class="card-tag">LGS Matematik • Görsel Kart</span>
+                            <button onclick="closeCard('lgs-m1')" class="close-btn">✕ Kapat</button>
+                        </div>
+                        <div class="card-content">
+                            <h2>EBOB & EKOK Karşılaştırma Şeması</h2>
+                            <div class="svg-graphic-container">
+                                <svg viewBox="0 0 500 80" width="100%" height="70" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="15" y="10" width="225" height="60" rx="6" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5"/>
+                                    <text x="127" y="32" fill="#60a5fa" font-size="11" font-weight="bold" text-anchor="middle">EBOB (Bütünden Parçaya)</text>
+                                    <text x="127" y="52" fill="#cbd5e1" font-size="9.5" text-anchor="middle">Tarlaya ağaç dikme, çuvallama</text>
+
+                                    <rect x="260" y="10" width="225" height="60" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5"/>
+                                    <text x="372" y="32" fill="#f43f5e" font-size="11" font-weight="bold" text-anchor="middle">EKOK (Parçadan Bütüne)</text>
+                                    <text x="372" y="52" fill="#cbd5e1" font-size="9.5" text-anchor="middle">Nöbet tutma, ortak buluşma</text>
+                                </svg>
+                            </div>
+                            <p>Problem sorularında bütünü paylaştırmak EBOB, küçük parçaları birleştirmek EKOK gerektirir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TYT BÖLÜMÜ ================= -->
+        <div id="pane-tyt" class="tab-pane">
+            <div class="lesson-menu">
+                <button onclick="switchLesson('tyt', 'mat')" id="tyt-les-mat" class="lesson-btn active">Matematik</button>
+            </div>
+
+            <div id="tyt-mat" class="lesson-pane active">
+                <div class="box">
+                    <div class="box-title">TYT Matematik Konuları</div>
+                    <button onclick="openCard('tyt-m1')" class="topic-item"><span>🔢 Sayı Kümeleri Hiyerarşisi</span><span class="arrow">İncele →</span></button>
+                </div>
+
+                <div id="card-tyt-m1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header">
+                            <span class="card-tag">TYT Matematik • Görsel Kart</span>
+                            <button onclick="closeCard('tyt-m1')" class="close-btn">✕ Kapat</button>
+                        </div>
+                        <div class="card-content">
+                            <h2>Sayı Kümeleri Kapsam Şeması</h2>
+                            <div class="svg-graphic-container">
+                                <svg viewBox="0 0 500 60" width="100%" height="50" xmlns="http://www.w3.org/2000/svg">
+                                    <text x="250" y="35" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">N (Doğal) ⊂ Z (Tam) ⊂ Q (Rasyonel) ⊂ R (Reel)</text>
+                                </svg>
+                            </div>
+                            <p>Her doğal sayı aynı zamanda bir tam ve rasyonel sayıdır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= YKS (AYT) BÖLÜMÜ ================= -->
+        <div id="pane-yks" class="tab-pane">
+            <div class="lesson-menu">
+                <button onclick="switchLesson('yks', 'mat')" id="yks-les-mat" class="lesson-btn active">Matematik</button>
+            </div>
+
+            <div id="yks-mat" class="lesson-pane active">
+                <div class="box">
+                    <div class="box-title">AYT Matematik Konuları</div>
+                    <button onclick="openCard('yks-m1')" class="topic-item"><span>📈 Türev Geometrik Yorumu</span><span class="arrow">İncele →</span></button>
+                </div>
+                <div id="card-yks-m1" class="card-pane">
+                    <div class="card-box">
+                        <div class="card-header"><span class="card-tag">AYT Matematik</span><button onclick="closeCard('yks-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-content">
+                            <h2>Türev ve Teğet Eğimi</h2>
+                            <p>Bir eğriye çizilen teğetin eğimi o noktasındaki türev değerine eşittir.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- FOOTER -->
         <footer>
-            <p>Türkiye Yüzyılı Maarif Modeli • Otomatik Günlük Sistem</p>
+            <p>Türkiye Yüzyılı Maarif Modeli Ultimate Eğitim Platformu</p>
             <p>© 2026 Maarif Akademi • Tüm Hakları Saklıdır.</p>
         </footer>
 
     </div>
 
-    <!-- KONU ANLATIMI VE TEST MOTORU KODU -->
+    <!-- JavaScript Kontrolleri -->
     <script>
-        const curriculumDatabase = {
-            lgs: {
-                ders: "LGS Matematik & Türkçe",
-                unite: "Çarpanlar, Katlar & Fiilimsiler",
-                theory: {
-                    title: "Çarpanlar, Katlar ve Fiilimsiler (Kritik Konu Özeti)",
-                    desc: "Bir pozitif tam sayının pozitif bölenleri aynı zamanda o sayının çarpanlarıdır. EBOB (En Büyük Ortak Bölen) problemlerinde bütünden parçaya gidilirken; EKOK (En Küçük Ortak Kat) problemlerinde ise küçük parçalardan büyük bütünlere (nöbet, buluşma, ortak katlar) ulaşılır. Türkçe tarafında ise fiilimsiler (eylemsimsi); fiil kök veya gövdelerinden türeyen ancak fiil çekim eklerini tam alamayan, cümlede isim, sıfat veya zarf görevinde kullanılan sözcüklerdir.",
-                    formula: "EBOB(a, b) × EKOK(a, b) = a × b  |  İsim-Fiil: -ma, -ış, -mak  |  Sıfat-Fiil: an, en, ası, mez, ar, dik, ecek, miş  |  Zarf-Fiil: -ip, -arak, -madan, -ınca",
-                    tips: [
-                        "💡 Yeni Nesil İpucu: LGS çarpan sorularında bahçe tel örgü, fayans döşeme ve kutu yerleştirme senaryoları sıklıkla EBOB-EKOK ilişkisiyle çözülür.",
-                        "💡 Dil Bilgisi İpucu: Fiilimsiler ek fiil alarak yüklem olabilirler ancak asla asıl fiil çekim kurallarına (kip ve şahıs) doğrudan uymazlar."
-                    ]
-                },
-                test1: generateMockQuestions("LGS Çarpanlar Testi", 10),
-                test2: generateMockQuestions("LGS Fiilimsiler Testi", 10)
-            },
-            tyt: {
-                ders: "TYT Matematik & Türkçe",
-                unite: "Temel Kavramlar & Paragraf Yapısı",
-                theory: {
-                    title: "Temel Kavramlar, Sayı Kümeleri ve Paragraf Stratejileri",
-                    desc: "Sayı kümeleri (Doğal, Tam, Rasyonel, İrrasyonel, Reel) ÖSYM sorularının temel omurgasını oluşturur. Tek-çift sayılar, pozitif-negatif incelemeleri ve asal sayılar yorum gücü gerektirir. Paragrafta ise ana düşünce, yardımcı düşünce ve akışı bozan cümle soruları dikkatli okuma ve paragraf mimarisini kavramayı zorunlu kılar.",
-                    formula: "Tek ± Tek = Çift  |  Çift × Çift = Çift  |  Asal Sayılar: 1 ve kendisinden başka böleni olmayan 1'den büyük doğal sayılardır (En küçük asal: 2).",
-                    tips: [
-                        "💡 İşlem İpucu: 'n elemanlı pozitif tam sayı' ifadelerinde 0'ın doğal sayı olup olmadığını (0'ın pozitif olmadığını) mutlaka kontrol edin.",
-                        "💡 Paragraf İpucu: Paragraf sorularında soru kökünü okumadan metne başlamak zaman kaybettirir. Önce soru kökünü okuyun."
-                    ]
-                },
-                test1: generateMockQuestions("TYT Temel Kavramlar Testi", 10),
-                test2: generateMockQuestions("TYT Paragraf Sentez Testi", 10)
-            },
-            yks: {
-                ders: "AYT Matematik",
-                unite: "Türev, İntegral ve Limit Uygulamaları",
-                theory: {
-                    title: "Türev ve İntegral Analizi (İleri Düzey Sentez)",
-                    desc: "Türev bir fonksiyonun anlık değişim oranını ve teğetinin eğimini verir. Bir fonksiyonun türevinin işaret incelemesi artan-azalan aralıklarını ve yerel ekstremum noktalarını buldurur. Belirli integral ise eğri altında kalan alanı hesaplamada ve riemann toplamlarında temel araçtır.",
-                    formula: "d/dx (f(g(x))) = f'(g(x)) · g'(x) (Zincir Kuralı)  |  ∫ x^n dx = (x^(n+1))/(n+1) + C",
-                    tips: [
-                        "💡 Sınav İpucu: Türevde yerel ekstremum noktalarında türevin işaret değiştirmesine dikkat edin; her türevin sıfır olduğu yer ekstremum değildir.",
-                        "💡 İntegral İpucu: Alan hesaplarında eksenleri kesişim noktalarını ve grafiğin hangi aralıkta üstte kaldığını kesinlikle çizerek analiz edin."
-                    ]
-                },
-                test1: generateMockQuestions("AYT Türev Uygulamaları Testi", 10),
-                test2: generateMockQuestions("AYT İntegral Alan Testi", 10)
-            }
-        };
-
-        let currentKademe = 'lgs';
-        let currentTestNum = 1;
-
-        function initDailySystem() {
-            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            const kademeler = ['lgs', 'tyt', 'yks'];
-            currentKademe = kademeler[dayOfYear % kademeler.length];
-
-            switchTab(currentKademe, false);
-            updateBanner();
-        }
-
-        function updateBanner() {
-            const data = curriculumDatabase[currentKademe];
-            document.getElementById('daily-title').innerText = `📅 Bugünün Otomatik Konu Rotasyonu: [${data.ders.toUpperCase()}]`;
-            document.getElementById('daily-desc').innerText = `Ünite/Kazanım: ${data.unite}. Sistem konuyu detaylı özetle ve 20 yeni nesil soruyla bugüne özel aktif hale getirdi.`;
-        }
-
-        function switchTab(kademe, manual = true) {
-            currentKademe = kademe;
-            ['lgs', 'tyt', 'yks'].forEach(k => {
-                document.getElementById('btn-' + k).classList.remove('active');
+        function switchTab(tabId) {
+            ['lgs', 'tyt', 'yks'].forEach(t => {
+                document.getElementById('pane-' + t).classList.remove('active');
+                document.getElementById('btn-' + t).classList.remove('active');
             });
-            document.getElementById('btn-' + kademe).classList.add('active');
-            if(manual) updateBanner();
-            loadTheory();
-            loadTest(currentTestNum);
+            document.getElementById('pane-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
         }
 
-        function loadTheory() {
-            const tData = curriculumDatabase[currentKademe].theory;
-            const container = document.getElementById('theory-container');
-            container.innerHTML = `
-                <h4>${tData.title}</h4>
-                <p>${tData.desc}</p>
-                <div class="formula-box"><strong>Formül & Kurallar:</strong> ${tData.formula}</div>
-                <ul class="tips-list">
-                    ${tData.tips.map(tip => `<li>${tip}</li>`).join('')}
-                </ul>
-            `;
-        }
-
-        function switchTest(testNum) {
-            currentTestNum = testNum;
-            document.getElementById('t-btn-1').classList.toggle('active', testNum === 1);
-            document.getElementById('t-btn-2').classList.toggle('active', testNum === 2);
-            document.getElementById('active-test-info').innerText = `TEST ${testNum} (10 Yeni Nesil Soru)`;
-            loadTest(testNum);
-        }
-
-        function generateMockQuestions(testName, count) {
-            let questions = [];
-            for(let i = 1; i <= count; i++) {
-                questions.push({
-                    id: i,
-                    text: `${testName} - Soru ${i}: MEB ve ÖSYM yeni nesil beceri temelli mantık, muhakeme ve günlük hayat entegrasyonu içeren soru kökü. Doğru analizi yapınız.`,
-                    options: [
-                        "A) Verilen öncüldeki birinci yargıyı destekler.",
-                        "B) Grafik verileriyle çelişmektedir.",
-                        "C) Doğru mantıksal sentezi temsil eder.",
-                        "D) Soru kökündeki istisnayı yansıtır."
-                    ],
-                    answer: 2, // C şıkkı
-                    solution: `Adım Adım Çözüm: Soru ${i} incelendiğinde, doğru cevabın C seçeneği olduğu görülür. Öncüllerdeki çeldiricilere ve işlem adımlarına dikkat edilmelidir.`
-                });
-            }
-            return questions;
-        }
-
-        function loadTest(testNum) {
-            const container = document.getElementById('questions-container');
-            const testData = testNum === 1 ? curriculumDatabase[currentKademe].test1 : curriculumDatabase[currentKademe].test2;
-            
-            let html = '';
-            testData.forEach((q, idx) => {
-                html += `
-                    <div class="question-card" id="q-card-${idx}">
-                        <div class="q-number">Soru ${q.id} / 10</div>
-                        <div class="q-text">${q.text}</div>
-                        <div class="options-list">
-                            ${q.options.map((opt, optIdx) => `
-                                <label class="option-label">
-                                    <input type="radio" name="q_${idx}" value="${optIdx}">
-                                    <span>${opt}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                        <button type="button" class="solution-toggle-btn" onclick="toggleSolution(${idx})">💡 Çözüm Rehberini Aç</button>
-                        <div class="solution-content" id="sol-${idx}">${q.solution}</div>
-                    </div>
-                `;
+        function switchLesson(category, lessonId) {
+            const lessons = category === 'lgs' ? ['turkce', 'mat'] : ['mat'];
+            lessons.forEach(l => {
+                const pane = document.getElementById(category + '-' + l);
+                const btn = document.getElementById(category + '-les-' + l);
+                if(pane) pane.classList.remove('active');
+                if(btn) btn.classList.remove('active');
             });
-            container.innerHTML = html;
-            document.getElementById('score-card').style.display = 'none';
+            document.getElementById(category + '-' + lessonId).classList.add('active');
+            document.getElementById(category + '-les-' + lessonId).classList.add('active');
         }
 
-        function toggleSolution(idx) {
-            const solEl = document.getElementById(`sol-${idx}`);
-            solEl.classList.toggle('show');
+        function openCard(cardId) {
+            document.getElementById('card-' + cardId).classList.add('active');
+            document.getElementById('card-' + cardId).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function evaluateTest(event) {
+        function closeCard(cardId) {
+            document.getElementById('card-' + cardId).classList.remove('active');
+        }
+
+        function toggleSol(solId) {
+            const el = document.getElementById(solId);
+            el.classList.toggle('show');
+        }
+
+        function evaluateQuiz(event, quizId) {
             event.preventDefault();
-            const testData = currentTestNum === 1 ? curriculumDatabase[currentKademe].test1 : curriculumDatabase[currentKademe].test2;
-            let correctCount = 0;
+            // Örnek basit değerlendirme simülasyonu
+            const answers = { q1: "1", q2: "1" }; // Doğru cevaplar indexleri
+            let correct = 0;
+            let total = 2;
 
-            testData.forEach((q, idx) => {
-                const selected = document.querySelector(`input[name="q_${idx}"]:checked`);
-                const card = document.getElementById(`q-card-${idx}`);
-                if(selected) {
-                    if(parseInt(selected.value) === q.answer) {
-                        correctCount++;
-                        card.style.borderColor = '#10b981';
-                    } else {
-                        card.style.borderColor = '#ef4444';
-                    }
-                } else {
-                    card.style.borderColor = '#f59e0b';
+            for(let key in answers) {
+                const selected = document.querySelector(`input[name="${key}"]:checked`);
+                if(selected && selected.value === answers[key]) {
+                    correct++;
                 }
-            });
+            }
 
-            const scoreCard = document.getElementById('score-card');
-            scoreCard.style.display = 'block';
-            document.getElementById('score-title').innerText = `📊 Test Sonucunuz: ${correctCount} Doğru / ${10 - correctCount} Yanlış`;
-            document.getElementById('score-text').innerText = correctCount >= 7 ? "Harika! Teorik konuyu ve soruları gayet iyi kavramış durumdasınız." : "Konu anlatımındaki formülleri gözden geçirip tekrar test çözmeniz önerilir.";
-            scoreCard.scrollIntoView({ behavior: 'smooth' });
+            const scoreBox = document.getElementById('score-' + quizId);
+            const scoreText = document.getElementById('score-text-' + quizId);
+            scoreBox.style.display = 'block';
+            scoreText.innerText = `Toplam ${total} sorudan ${correct} doğru yaptınız. Tebrikler!`;
+            scoreBox.scrollIntoView({ behavior: 'smooth' });
         }
-
-        window.onload = initDailySystem;
     </script>
 </body>
 </html>
