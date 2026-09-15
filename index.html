@@ -1,1 +1,140 @@
-index.html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LGS Maarif Akademi | Günlük Çalışma Paneli</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen py-8 px-4 sm:px-6">
+
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- ÜST BAŞLIK -->
+        <header class="text-center space-y-2">
+            <span class="inline-block bg-indigo-500/10 text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-500/20">
+                🚀 TÜRKİYE YÜZYILI MAARİF MODELİ
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">LGS Maarif Akademi Portalı</h1>
+            <p class="text-sm text-slate-400">Günün Konusu & Yeni Nesil Beceri Temelli Soru Paneli</p>
+        </header>
+
+        <!-- KART 1: KONU ÖZETİ VE İNFOGRAFİK ALANI -->
+        <section class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-emerald-400 font-bold">Ders: Türkçe</span>
+                    <h2 class="text-lg font-bold text-white">Fiilimsiler ve Metin Analizi</h2>
+                </div>
+                <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-1 rounded-lg">Gün 1</span>
+            </div>
+
+            <!-- Konu Özeti Maddeleri -->
+            <div class="space-y-3 text-sm text-slate-300">
+                <div class="flex items-start gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                    <span class="bg-emerald-500 text-slate-900 font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p><b>Fiilimsiler</b> (isim-fiil, sıfat-fiil, zarf-fiil), eylem anlamını koruyarak cümlede farklı görevler üstlenir ve cümleler arası anlamsal köprüler kurar.</p>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                    <span class="bg-emerald-500 text-slate-900 font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p>Bir kelimenin fiilimsi mi yoksa kalıcı isim mi olduğu ezberle değil, metindeki kullanım bağlamı incelenerek belirlenir.</p>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                    <span class="bg-emerald-500 text-slate-900 font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p><b>Zarf-fiiller</b> metne durum veya zaman anlamı katarak yazarın ifade biçimini ve akışı doğrudan etkiler.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- KART 2: İNTERAKTİF YENİ NESİL SORU PANELİ -->
+        <section class="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-5">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🧠</span>
+                <h3 class="text-base font-bold text-white">Günün Yeni Nesil Beceri Temelli Sorusu</h3>
+            </div>
+
+            <!-- Soru Metni -->
+            <div class="text-sm text-slate-200 leading-relaxed bg-slate-900/70 p-4 rounded-xl border border-slate-700/50">
+                <p class="mb-3 font-mono text-xs text-indigo-300">(I) Sürdürülebilir bir gelecek kurmak amacıyla yenilenebilir enerji kaynaklarına yönelen toplumlar... (II) Güneş ve rüzgâr gibi tükenmeyen kaynaklardan yararlanılarak üretilen elektrik... (III) Teknoloji ilerledikçe yeşil enerjinin maliyeti düşmektedir. (IV) Geçmişten günümüze aktarılan bu sorumluluk, yarınlara yaşanabilir bir dünya bırakmanın yoludur.</p>
+                <p class="font-semibold text-white">Bu metindeki fiilimsilerin katkısıyla ilgili aşağıdakilerden hangisi <span class="underline decoration-indigo-400">söylenemez</span>?</p>
+            </div>
+
+            <!-- Şıklar / İnteraktif Butonlar -->
+            <div class="space-y-2.5" id="options-container">
+                <button onclick="checkAnswer(0, false)" class="option-btn w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer">
+                    <span><b>A)</b> I. cümlede isim-fiil ("kurmak"), edatla öbekleşerek amaç-sonuç anlamı katmıştır.</span>
+                    <span class="status-icon text-xs font-bold"></span>
+                </button>
+                <button onclick="checkAnswer(1, false)" class="option-btn w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer">
+                    <span><b>B)</b> II. cümlede "tükenmeyen" sözcüğü sıfat-fiil görevi üstlenirken "yararlanılarak" zarf-fiildir.</span>
+                    <span class="status-icon text-xs font-bold"></span>
+                </button>
+                <button onclick="checkAnswer(2, false)" class="option-btn w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer">
+                    <span><b>C)</b> III. cümlede "ilerledikçe" zarf-fiili, temel cümleye zaman/süreç boyutu katmıştır.</span>
+                    <span class="status-icon text-xs font-bold"></span>
+                </button>
+                <button onclick="checkAnswer(3, true)" class="option-btn w-full text-left p-3.5 rounded-xl border border-slate-700 bg-slate-900/60 hover:bg-slate-700/50 transition-all text-sm text-slate-200 flex items-center justify-between cursor-pointer">
+                    <span><b>D)</b> IV. cümlede "aktarılan" sıfat-fiildir; "bırakmanın" ise eylem anlamını yitirip kalıcı isim olmuştur.</span>
+                    <span class="status-icon text-xs font-bold"></span>
+                </button>
+            </div>
+
+            <!-- Gerekçeli Açıklama Kutusu (Başlangıçta Gizli) -->
+            <div id="explanation-box" class="hidden mt-4 p-4 rounded-xl border border-emerald-500/40 bg-emerald-950/20 text-sm space-y-2">
+                <div class="flex items-center gap-2 text-emerald-400 font-bold">
+                    <span>💡</span>
+                    <span>Maarif Modeli Çözüm ve Gerekçesi</span>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-xs sm:text-sm">
+                    <b>Doğru Cevap D seçeneğidir.</b> IV numaralı cümlede geçen "bırakmanın" kelimesi `-ma` isim-fiil ekini almıştır ve eylem anlamını (isim-fiil özelliğini) korumaktadır, kalıcı isim olmamıştır. Diğer seçeneklerdeki fiilimsi analizleri tamamen doğrudur.
+                </p>
+            </div>
+        </section>
+
+        <footer class="text-center text-xs text-slate-500 py-4">
+            © 2026 LGS Maarif Akademi • Otomatik Gün Eğitim Sistemi
+        </footer>
+
+    </div>
+
+    <!-- İnteraktif Kontrol Scripti -->
+    <script>
+        let answered = false;
+
+        function checkAnswer(selectedIndex, isCorrect) {
+            if (answered) return;
+            answered = true;
+
+            const buttons = document.querySelectorAll('.option-btn');
+
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('hover:bg-slate-700/50', 'cursor-pointer');
+                btn.style.pointerEvents = 'none';
+
+                const icon = btn.querySelector('.status-icon');
+
+                if (index === 3) {
+                    btn.classList.remove('border-slate-700', 'bg-slate-900/60');
+                    btn.classList.add('border-emerald-500', 'bg-emerald-900/30', 'text-emerald-200');
+                    icon.textContent = '✅ Doğru';
+                    icon.className = 'status-icon text-emerald-400 text-xs font-bold';
+                } else if (index === selectedIndex && !isCorrect) {
+                    btn.classList.remove('border-slate-700', 'bg-slate-900/60');
+                    btn.classList.add('border-rose-500', 'bg-rose-900/30', 'text-rose-200');
+                    icon.textContent = '❌ Yanlış';
+                    icon.className = 'status-icon text-rose-400 text-xs font-bold';
+                }
+            });
+
+            const expBox = document.getElementById('explanation-box');
+            expBox.classList.remove('hidden');
+            expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
