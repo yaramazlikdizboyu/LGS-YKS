@@ -31,7 +31,6 @@ def generate_content(lesson_info):
         "ozet": "Konuyla ilgili 3 maddelik nokta atışı ve akılda kalıcı bilgi özeti",
         "soru": "Öğrencinin analiz yeteneğini ölçen yeni nesil beceri temelli soru metni",
         "secenekler": ["A) ...", "B) ...", "C) ...", "D) ..."],
-        "dogru_cevap_index": 0,
         "cozum": "Adım adım mantıksal çözüm ve Maarif Modeli açıklaması"
     }}
     """
@@ -83,40 +82,52 @@ def create_pro_banner(lesson_name, topic_name):
     return bio
 
 def send_telegram_interactive_post(data, lesson_info):
-    # 1. Pro İnfografik Banner'ı ve Açıklama Metnini Gönder
+    # 1. Önce Temiz Banner Görselini Gönder
     try:
         banner_io = create_pro_banner(lesson_info['lesson'], lesson_info['topic'])
         url_photo = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
-        
-        message = f"🚀 **LGS MAARİF AKADEMİ | İNTERAKTİF ÇALIŞMA** 🌟\n\n"
-        message += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n\n"
-        message += f"💡 **Nokta Atışı Özet:**\n{data['ozet']}\n\n"
-        message += f"────────────────────────\n"
-        message += f"❓ **Yeni Nesil Soru:**\n{data['soru']}\n\n"
-        message += f"👇 **Cevabınızı aşağıdaki butonlardan seçin:**"
-
-        # İnteraktif Inline Butonlar (A, B, C, D)
-        inline_keyboard = {
-            "inline_keyboard": [
-                [
-                    {"text": "🅰️ A", "callback_data": "ans_0"},
-                    {"text": "🅱️ B", "callback_data": "ans_1"},
-                    {"text": "🅲 C", "callback_data": "ans_2"},
-                    {"text": "🅳 D", "callback_data": "ans_3"}
-                ]
-            ]
-        }
-
         files = {'photo': ('pro_banner.jpg', banner_io, 'image/jpeg')}
         payload = {
             "chat_id": TELEGRAM_CHAT_ID,
-            "caption": message,
-            "parse_mode": "Markdown",
-            "reply_markup": json.dumps(inline_keyboard)
+            "caption": f"🎯 {lesson_info['lesson'].upper()} - {lesson_info['topic']}"
         }
         requests.post(url_photo, data=payload, files=files)
     except Exception as e:
-        print(f"İnteraktif gönderi hatası: {e}")
+        print(f"Görsel gönderilemedi: {e}")
+
+    # 2. Sonra Detaylı Metin ve İnteraktif Butonları İçeren Mesajı Gönder
+    url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    
+    message = f"🚀 **LGS MAARİF AKADEMİ | İNTERAKTİF ÇALIŞMA** 🌟\n\n"
+    message += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n\n"
+    message += f"💡 **Nokta Atışı Özet:**\n{data['ozet']}\n\n"
+    message += f"────────────────────────\n"
+    message += f"❓ **Yeni Nesil Soru:**\n{data['soru']}\n\n"
+    
+    message += "📌 **Seçenekler:**\n"
+    for sec in data['secenekler']:
+        message += f"{sec}\n"
+        
+    message += f"\n👇 **Cevabınızı aşağıdaki butonlardan seçin:**"
+
+    inline_keyboard = {
+        "inline_keyboard": [
+            [
+                {"text": "🅰️ A", "callback_data": "ans_0"},
+                {"text": "🅱️ B", "callback_data": "ans_1"},
+                {"text": "🅲 C", "callback_data": "ans_2"},
+                {"text": "🅳 D", "callback_data": "ans_3"}
+            ]
+        ]
+    }
+
+    payload_msg = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
+        "parse_mode": "Markdown",
+        "reply_markup": json.dumps(inline_keyboard)
+    }
+    requests.post(url_msg, data=payload_msg)
 
 def main():
     state = load_state()
