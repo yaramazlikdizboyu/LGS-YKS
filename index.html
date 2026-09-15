@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="only light">
-    <title>Maarif Akademi | Otomatik Günlük Yeni Nesil Test ve Eğitim Platformu</title>
+    <title>Maarif Akademi | Konu Anlatımı & Otomatik Yeni Nesil Test Platformu</title>
     <style>
         :root { color-scheme: light; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,7 +17,7 @@
             justify-content: center;
             min-height: 100vh;
         }
-        .container { width: 100%; max-width: 800px; }
+        .container { width: 100%; max-width: 850px; }
         header { text-align: center; margin-bottom: 28px; }
         .badge {
             display: inline-block;
@@ -31,7 +31,7 @@
             letter-spacing: 0.8px;
             box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
         }
-        h1 { font-size: 34px; font-weight: 900; color: #ffffff; margin-bottom: 6px; }
+        h1 { font-size: 32px; font-weight: 900; color: #ffffff; margin-bottom: 6px; }
         h1 span { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .subtitle { font-size: 14px; color: #94a3b8; font-weight: 600; }
 
@@ -77,9 +77,6 @@
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
         }
 
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; }
-
         /* Kutu ve Kartlar */
         .box {
             background: rgba(30, 41, 59, 0.6);
@@ -87,11 +84,34 @@
             border-radius: 24px;
             padding: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        .box-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #38bdf8; margin-bottom: 16px; letter-spacing: 1px; }
+        .box-title { font-size: 13px; font-weight: 800; text-transform: uppercase; color: #38bdf8; margin-bottom: 16px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
 
-        /* İnteraktif Test Alanı Stilleri */
+        /* KONU ANLATIMI ALANI */
+        .theory-content h4 { font-size: 18px; color: #ffffff; margin-bottom: 10px; font-weight: 800; }
+        .theory-content p { font-size: 14.5px; color: #cbd5e1; line-height: 1.7; margin-bottom: 14px; }
+        .formula-box {
+            background: #111827;
+            border-left: 4px solid #8b5cf6;
+            padding: 14px 18px;
+            border-radius: 0 14px 14px 0;
+            margin: 16px 0;
+            font-family: monospace;
+            font-size: 14px;
+            color: #f472b6;
+        }
+        .tips-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+        .tips-list li {
+            background: rgba(56, 189, 248, 0.08);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* İNTERAKTİF TEST MERKEZİ */
         .test-header-bar {
             display: flex;
             justify-content: space-between;
@@ -208,14 +228,14 @@
         <!-- ÜST BAŞLIK -->
         <header>
             <div class="badge">🚀 TÜRKİYE YÜZYILI MAARİF AKADEMİSİ</div>
-            <h1>Otomatik Günlük <span>Test & Soru Platformu</span></h1>
-            <p class="subtitle">MEB & ÖSYM Uyumlu • Her Gün Yeni Konu • 2 Test • 20 Yeni Nesil Soru</p>
+            <h1>Konu Anlatımı & <span>Yeni Nesil Test Platformu</span></h1>
+            <p class="subtitle">MEB & ÖSYM Uyumlu • Detaylı Konu Özeti • 2 Kapsamlı Test</p>
         </header>
 
         <!-- OTOMATİK GÜNLÜK SİSTEM BİLGİSİ -->
         <div class="daily-system-banner">
             <h3 id="daily-title">📅 Günün Otomatik Konu Rotasyonu Yükleniyor...</h3>
-            <p id="daily-desc">Sistem her gün takvim döngüsüne göre LGS, TYT ve AYT arasında otomatik konu seçer ve testleri senkronize eder.</p>
+            <p id="daily-desc">Sistem takvim döngüsüne göre LGS, TYT ve AYT için günün teorik konu anlatımını ve testlerini senkronize eder.</p>
         </div>
 
         <!-- KADEME SEÇİMİ -->
@@ -225,12 +245,20 @@
             <button onclick="switchTab('yks')" id="btn-yks" class="tab-btn">AYT (İleri YKS)</button>
         </div>
 
-        <!-- İNTERAKTİF TEST MERKEZİ -->
+        <!-- 1. BÖLÜM: KAPSAMLI KONU ANLATIMI VE FORMÜLLER -->
         <div class="box">
-            <div class="box-title">İNTERAKTİF YENİ NESİL TEST MERKEZİ (MEB / ÖSYM)</div>
+            <div class="box-title">📖 GÜNÜN KAPSAMLI KONU ANLATIMI & ÖNEMLİ İPUÇLARI</div>
+            <div class="theory-content" id="theory-container">
+                <!-- Dinamik Konu Anlatımı Buraya Gelecek -->
+            </div>
+        </div>
+
+        <!-- 2. BÖLÜM: İNTERAKTİF YENİ NESİL TEST MERKEZİ -->
+        <div class="box">
+            <div class="box-title">⚡ İNTERAKTİF YENİ NESİL TEST MERKEZİ (10'ar Soruluk Setler)</div>
             
             <div class="test-header-bar">
-                <span id="active-test-info" style="font-size: 14px; font-weight: 800; color: #38bdf8;">TEST 1 (10 Yeni Nesil Soru)</span>
+                <span id="active-test-info" style="font-size: 14px; font-weight: 800; color: #38bdf8;">TEST 1</span>
                 <div style="display: flex; gap: 8px;">
                     <button onclick="switchTest(1)" id="t-btn-1" class="test-select-btn active">Test 1</button>
                     <button onclick="switchTest(2)" id="t-btn-2" class="test-select-btn">Test 2</button>
@@ -239,7 +267,7 @@
 
             <form id="quiz-form" onsubmit="evaluateTest(event)">
                 <div id="questions-container">
-                    <!-- Sorular JS ile dinamik doldurulacak (Her test için 10 adet yeni nesil soru) -->
+                    <!-- Sorular JS ile dinamik doldurulacak -->
                 </div>
                 <button type="submit" class="submit-test-btn">✨ Testi Bitir ve Netlerimi Gör</button>
             </form>
@@ -258,27 +286,53 @@
 
     </div>
 
-    <!-- OTOMATİK DÖNGÜ VE İNTERAKTİF TEST MOTORU -->
+    <!-- KONU ANLATIMI VE TEST MOTORU KODU -->
     <script>
-        // Müfredat Veritabanı ve Günlük Otomatik Seçim Motoru
         const curriculumDatabase = {
             lgs: {
                 ders: "LGS Matematik & Türkçe",
-                unite: "Çarpanlar, Katlar & Fiilimsiler (MEB Odaklı Yeni Nesil)",
-                test1: generateMockQuestions("LGS Test 1", 10),
-                test2: generateMockQuestions("LGS Test 2", 10)
+                unite: "Çarpanlar, Katlar & Fiilimsiler",
+                theory: {
+                    title: "Çarpanlar, Katlar ve Fiilimsiler (Kritik Konu Özeti)",
+                    desc: "Bir pozitif tam sayının pozitif bölenleri aynı zamanda o sayının çarpanlarıdır. EBOB (En Büyük Ortak Bölen) problemlerinde bütünden parçaya gidilirken; EKOK (En Küçük Ortak Kat) problemlerinde ise küçük parçalardan büyük bütünlere (nöbet, buluşma, ortak katlar) ulaşılır. Türkçe tarafında ise fiilimsiler (eylemsimsi); fiil kök veya gövdelerinden türeyen ancak fiil çekim eklerini tam alamayan, cümlede isim, sıfat veya zarf görevinde kullanılan sözcüklerdir.",
+                    formula: "EBOB(a, b) × EKOK(a, b) = a × b  |  İsim-Fiil: -ma, -ış, -mak  |  Sıfat-Fiil: an, en, ası, mez, ar, dik, ecek, miş  |  Zarf-Fiil: -ip, -arak, -madan, -ınca",
+                    tips: [
+                        "💡 Yeni Nesil İpucu: LGS çarpan sorularında bahçe tel örgü, fayans döşeme ve kutu yerleştirme senaryoları sıklıkla EBOB-EKOK ilişkisiyle çözülür.",
+                        "💡 Dil Bilgisi İpucu: Fiilimsiler ek fiil alarak yüklem olabilirler ancak asla asıl fiil çekim kurallarına (kip ve şahıs) doğrudan uymazlar."
+                    ]
+                },
+                test1: generateMockQuestions("LGS Çarpanlar Testi", 10),
+                test2: generateMockQuestions("LGS Fiilimsiler Testi", 10)
             },
             tyt: {
                 ders: "TYT Matematik & Türkçe",
-                unite: "Temel Kavramlar & Paragraf Mantığı (ÖSYM Standartı)",
-                test1: generateMockQuestions("TYT Test 1", 10),
-                test2: generateMockQuestions("TYT Test 2", 10)
+                unite: "Temel Kavramlar & Paragraf Yapısı",
+                theory: {
+                    title: "Temel Kavramlar, Sayı Kümeleri ve Paragraf Stratejileri",
+                    desc: "Sayı kümeleri (Doğal, Tam, Rasyonel, İrrasyonel, Reel) ÖSYM sorularının temel omurgasını oluşturur. Tek-çift sayılar, pozitif-negatif incelemeleri ve asal sayılar yorum gücü gerektirir. Paragrafta ise ana düşünce, yardımcı düşünce ve akışı bozan cümle soruları dikkatli okuma ve paragraf mimarisini kavramayı zorunlu kılar.",
+                    formula: "Tek ± Tek = Çift  |  Çift × Çift = Çift  |  Asal Sayılar: 1 ve kendisinden başka böleni olmayan 1'den büyük doğal sayılardır (En küçük asal: 2).",
+                    tips: [
+                        "💡 İşlem İpucu: 'n elemanlı pozitif tam sayı' ifadelerinde 0'ın doğal sayı olup olmadığını (0'ın pozitif olmadığını) mutlaka kontrol edin.",
+                        "💡 Paragraf İpucu: Paragraf sorularında soru kökünü okumadan metne başlamak zaman kaybettirir. Önce soru kökünü okuyun."
+                    ]
+                },
+                test1: generateMockQuestions("TYT Temel Kavramlar Testi", 10),
+                test2: generateMockQuestions("TYT Paragraf Sentez Testi", 10)
             },
             yks: {
                 ders: "AYT Matematik",
-                unite: "Türev, İntegral ve Trigonometrik Sentezler",
-                test1: generateMockQuestions("AYT Test 1", 10),
-                test2: generateMockQuestions("AYT Test 2", 10)
+                unite: "Türev, İntegral ve Limit Uygulamaları",
+                theory: {
+                    title: "Türev ve İntegral Analizi (İleri Düzey Sentez)",
+                    desc: "Türev bir fonksiyonun anlık değişim oranını ve teğetinin eğimini verir. Bir fonksiyonun türevinin işaret incelemesi artan-azalan aralıklarını ve yerel ekstremum noktalarını buldurur. Belirli integral ise eğri altında kalan alanı hesaplamada ve riemann toplamlarında temel araçtır.",
+                    formula: "d/dx (f(g(x))) = f'(g(x)) · g'(x) (Zincir Kuralı)  |  ∫ x^n dx = (x^(n+1))/(n+1) + C",
+                    tips: [
+                        "💡 Sınav İpucu: Türevde yerel ekstremum noktalarında türevin işaret değiştirmesine dikkat edin; her türevin sıfır olduğu yer ekstremum değildir.",
+                        "💡 İntegral İpucu: Alan hesaplarında eksenleri kesişim noktalarını ve grafiğin hangi aralıkta üstte kaldığını kesinlikle çizerek analiz edin."
+                    ]
+                },
+                test1: generateMockQuestions("AYT Türev Uygulamaları Testi", 10),
+                test2: generateMockQuestions("AYT İntegral Alan Testi", 10)
             }
         };
 
@@ -286,7 +340,6 @@
         let currentTestNum = 1;
 
         function initDailySystem() {
-            // Yılın gününe göre otomatik rotasyon (Her gün farklı bir kademe öne çıkar)
             const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
             const kademeler = ['lgs', 'tyt', 'yks'];
             currentKademe = kademeler[dayOfYear % kademeler.length];
@@ -297,8 +350,8 @@
 
         function updateBanner() {
             const data = curriculumDatabase[currentKademe];
-            document.getElementById('daily-title').innerText = `📅 Bugünün Otomatik Konusu: [${data.ders.toUpperCase()}]`;
-            document.getElementById('daily-desc').innerText = `Ünite/Kazanım: ${data.unite}. Sistem otomatik olarak MEB/ÖSYM standardında 2 test ve 20 yeni nesil soruyu aktif hale getirdi.`;
+            document.getElementById('daily-title').innerText = `📅 Bugünün Otomatik Konu Rotasyonu: [${data.ders.toUpperCase()}]`;
+            document.getElementById('daily-desc').innerText = `Ünite/Kazanım: ${data.unite}. Sistem konuyu detaylı özetle ve 20 yeni nesil soruyla bugüne özel aktif hale getirdi.`;
         }
 
         function switchTab(kademe, manual = true) {
@@ -308,7 +361,21 @@
             });
             document.getElementById('btn-' + kademe).classList.add('active');
             if(manual) updateBanner();
+            loadTheory();
             loadTest(currentTestNum);
+        }
+
+        function loadTheory() {
+            const tData = curriculumDatabase[currentKademe].theory;
+            const container = document.getElementById('theory-container');
+            container.innerHTML = `
+                <h4>${tData.title}</h4>
+                <p>${tData.desc}</p>
+                <div class="formula-box"><strong>Formül & Kurallar:</strong> ${tData.formula}</div>
+                <ul class="tips-list">
+                    ${tData.tips.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            `;
         }
 
         function switchTest(testNum) {
@@ -322,18 +389,17 @@
         function generateMockQuestions(testName, count) {
             let questions = [];
             for(let i = 1; i <= count; i++) {
-                questions.id = i;
                 questions.push({
                     id: i,
-                    text: `${testName} - Soru ${i}: MEB ve ÖSYM yeni nesil beceri temelli mantık, muhakeme ve günlük hayat entegrasyonu içeren soru kökü burada yer almaktadır. Doğru analizi yapınız.`,
+                    text: `${testName} - Soru ${i}: MEB ve ÖSYM yeni nesil beceri temelli mantık, muhakeme ve günlük hayat entegrasyonu içeren soru kökü. Doğru analizi yapınız.`,
                     options: [
                         "A) Verilen öncüldeki birinci yargıyı destekler.",
                         "B) Grafik verileriyle çelişmektedir.",
                         "C) Doğru mantıksal sentezi temsil eder.",
                         "D) Soru kökündeki istisnayı yansıtır."
                     ],
-                    answer: 2, // C şıkkı (0 tabanlı index 2)
-                    solution: `Adım Adım Çözüm: Soru ${i} için verilen öncül incelendiğinde, doğru cevabın C seçeneği olduğu görülür. MEB/ÖSYM çeldirici tuzaklarına dikkat edilmelidir.`
+                    answer: 2, // C şıkkı
+                    solution: `Adım Adım Çözüm: Soru ${i} incelendiğinde, doğru cevabın C seçeneği olduğu görülür. Öncüllerdeki çeldiricilere ve işlem adımlarına dikkat edilmelidir.`
                 });
             }
             return questions;
@@ -394,11 +460,10 @@
             const scoreCard = document.getElementById('score-card');
             scoreCard.style.display = 'block';
             document.getElementById('score-title').innerText = `📊 Test Sonucunuz: ${correctCount} Doğru / ${10 - correctCount} Yanlış`;
-            document.getElementById('score-text').innerText = correctCount >= 7 ? "Harika! Yeni nesil soru çözüm beceriniz oldukça iyi düzeyde." : "Konu tekrarı ve detaylı çözüm incelemesi yapmanız önerilir.";
+            document.getElementById('score-text').innerText = correctCount >= 7 ? "Harika! Teorik konuyu ve soruları gayet iyi kavramış durumdasınız." : "Konu anlatımındaki formülleri gözden geçirip tekrar test çözmeniz önerilir.";
             scoreCard.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Sayfa açıldığında otomatik sistemi çalıştır
         window.onload = initDailySystem;
     </script>
 </body>
