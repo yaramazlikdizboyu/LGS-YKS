@@ -20,7 +20,7 @@
         }
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 680px;
         }
         header {
             text-align: center;
@@ -49,6 +49,7 @@
             color: #475569;
             font-weight: 600;
         }
+
         /* Kademe Sekmeleri */
         .tabs {
             display: grid;
@@ -77,6 +78,7 @@
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
+
         /* Dersler Menüsü */
         .lesson-menu {
             display: flex;
@@ -101,6 +103,7 @@
             color: #ffffff;
             border-color: #4f46e5;
         }
+
         /* İçerik Alanları */
         .tab-pane, .lesson-pane, .card-pane {
             display: none;
@@ -148,56 +151,121 @@
             color: #4f46e5;
             font-size: 12px;
         }
-        /* Konu Kartı Detayı */
+
+        /* YÜKSELTİLMİŞ MODERN BİLGİ KARTI MİMARİSİ */
         .card-box {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
+            background: #0f172a;
+            color: #f8fafc;
+            border: 1px solid #334155;
             border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            padding: 22px;
+            box-shadow: 0 16px 36px rgba(0,0,0,0.25);
             margin-bottom: 16px;
         }
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 10px;
-            margin-bottom: 14px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
         }
         .card-tag {
             font-size: 11px;
             font-weight: 800;
-            background: #eef2ff;
-            color: #4f46e5;
-            padding: 4px 10px;
+            background: #312e81;
+            color: #a5b4fc;
+            padding: 5px 12px;
             border-radius: 8px;
+            border: 1px solid rgba(165, 180, 252, 0.3);
+            text-transform: uppercase;
         }
         .close-btn {
-            background: none;
-            border: none;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 6px 12px;
             font-size: 12px;
             font-weight: 700;
-            color: #64748b;
+            color: #94a3b8;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+        .close-btn:hover {
+            background: #334155;
+            color: #ffffff;
         }
         .card-content h2 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 10px;
+            color: #ffffff;
+            margin-bottom: 12px;
         }
-        .card-body-text {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 14px;
-            border-radius: 12px;
+
+        /* Meta Pills */
+        .meta-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+        }
+        .pill-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3); }
+
+        /* Analiz Tabloları */
+        .card-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
             font-size: 13px;
-            color: #334155;
-            line-height: 1.5;
-            margin-bottom: 8px;
+            background: #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        .card-body-text b { color: #4f46e5; }
+        .card-table th {
+            background: #334155;
+            color: #f1f5f9;
+            text-align: left;
+            padding: 10px 12px;
+            font-weight: 700;
+        }
+        .card-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #334155;
+            color: #e2e8f0;
+        }
+        .card-table tr:last-child td { border-bottom: none; }
+
+        /* İpucu ve Tuzak Kutuları */
+        .trap-box {
+            background: rgba(225, 29, 72, 0.12);
+            border: 1px solid #f43f5e;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #fecdd3;
+            line-height: 1.5;
+        }
+        .tip-box {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #fef3c7;
+            line-height: 1.5;
+        }
+
         footer {
             text-align: center;
             font-size: 11px;
@@ -241,22 +309,100 @@
                     <button onclick="openCard('lgs-t1')" class="topic-item"><span>📖 Fiilimsiler ve Metin Analizi</span><span class="arrow">İncele →</span></button>
                     <button onclick="openCard('lgs-t2')" class="topic-item"><span>📖 Cümlenin Ögeleri</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-lgs-t1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">Türkçe • Konu Kartı</span><button onclick="closeCard('lgs-t1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">LGS Türkçe • Derece Kartı</span>
+                            <button onclick="closeCard('lgs-t1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Fiilimsiler (Eylemsimsiler)</h2>
-                            <div class="card-body-text"><b>1. İsim-Fiil:</b> -ma, -ış, -mak ekleriyle oluşur. Örnek: <i>Kitap okumak en büyük tutkusuydu.</i></div>
-                            <div class="card-body-text"><b>2. Sıfat-Fiil:</b> Anası mezar dikecekmiş ekleriyle kurulur. Örnek: <i>Gülümseyen insanlar...</i></div>
+                            <h2>Fiilimsiler (Eylemsimsiler) Pratik Rehber</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ %100 MEB Uyumlu</span>
+                                <span class="pill">⚠️ Çeldirici İpuçları</span>
+                                <span class="pill">📊 Kodlama Destekli</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tür</th>
+                                        <th>Ekler (Kodlama)</th>
+                                        <th>Örnek</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>İsim-Fiil</b></td>
+                                        <td>-ma, -ış, -mak <i>(MAAŞMAK)</i></td>
+                                        <td>Onunla <u>görüşmek</u> faydalı oldu.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Sıfat-Fiil</b></td>
+                                        <td>-an, -ası, -mez, -ar, -dik, -ecek, -miş <i>(ANASI MEZAR...)</i></td>
+                                        <td><u>Tanıdık</u> yüzler aradı.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Zarf-Fiil</b></td>
+                                        <td>-ken, -alı, -ince, -ip, -arak, -dıkça...</td>
+                                        <td>Ders <u>çalışırken</u> uyuyakalmış.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="trap-box">
+                                <strong>⚠️ MEB ÇELDİRİCİSİ:</strong> Kalıcı isimler eylemsi değildir! <i>(Çakmak, dolma, dondurma, ekmek)</i>. Ayrıca kip eki almış yüklemler ile sıfat-fiil eklerini karıştırma: <br>
+                                • <i>Gelecek yıl LGS var.</i> ➔ <b>Sıfat-Fiil</b><br>
+                                • <i>Yarın bize gelecek.</i> ➔ <b>Çekimli Fiil (Yüklem)</b>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <div id="card-lgs-t2" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">Türkçe • Konu Kartı</span><button onclick="closeCard('lgs-t2')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">LGS Türkçe • Derece Kartı</span>
+                            <button onclick="closeCard('lgs-t2')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Cümlenin Ögeleri</h2>
-                            <div class="card-body-text"><b>Temel Ögeler:</b> Yüklem ve Özne cümlenin temel taşıdır. Yüklem yargıyı bildirir.</div>
+                            <h2>Cümlenin Ögeleri Mantık Analizi</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ %100 MEB Uyumlu</span>
+                                <span class="pill">🔍 Tamlama Ayrımı</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Öge</th>
+                                        <th>Sorulacak Soru</th>
+                                        <th>Kritik Nokta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Yüklem</b></td>
+                                        <td>Cümlenin yargısıdır</td>
+                                        <td>İsim veya fiil soylu olabilir.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Özne</b></td>
+                                        <td>Kim?, Ne?</td>
+                                        <td>Yüklemden hemen sonra bulunur.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Nesne</b></td>
+                                        <td>Neyi?, Kimi? (Belirtili) / Ne? (Belirtisiz)</td>
+                                        <td>Özne ile "Ne?" sorusu karıştırılmamalı.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="trap-box">
+                                <strong>⚠️ MEB ÇELDİRİCİSİ:</strong> İsim tamlamaları, sıfat tamlamaları, birleşik fiiller ve deyimler ögeler ayrılırken <u>asla bölünmez!</u>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -268,12 +414,45 @@
                     <div class="box-title">Matematik Konu Listesi</div>
                     <button onclick="openCard('lgs-m1')" class="topic-item"><span>📐 Çarpanlar ve Katlar (EBOB-EKOK)</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-lgs-m1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">Matematik • Konu Kartı</span><button onclick="closeCard('lgs-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">LGS Matematik • Derece Kartı</span>
+                            <button onclick="closeCard('lgs-m1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Çarpanlar ve Katlar</h2>
-                            <div class="card-body-text"><b>EBOB:</b> İki veya daha fazla doğal sayının ortak bölenlerinin en büyüğüdür.</div>
+                            <h2>EBOB & EKOK Problem Mantığı</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ %100 MEB Uyumlu</span>
+                                <span class="pill">⚡ Problem Ayrım Taktiği</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Soru Mantığı</th>
+                                        <th>İşlem Türü</th>
+                                        <th>Anahtar Kelimeler / Kalıplar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Büyük ➔ Küçük</b></td>
+                                        <td><b style="color:#60a5fa;">EBOB</b></td>
+                                        <td>Tarlayı parselleme, çuval/şişe paylaştırma, eşit aralıklarla direk dikme.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Küçük ➔ Büyük</b></td>
+                                        <td><b style="color:#f43f5e;">EKOK</b></td>
+                                        <td>Zil/nöbet saatleri, kutuları üst üste koyup küp yapma, birlikte hareket.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="tip-box">
+                                <strong>📌 LGS ALTIN İPUCU:</strong> Aralarında asal iki sayının <b>EBOB'u = 1</b>, <b>EKOK'u = Sayıların Çarpımı</b>dır. Ardışık sayılar her zaman aralarında asaldır.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -285,12 +464,50 @@
                     <div class="box-title">Fen Bilimleri Konu Listesi</div>
                     <button onclick="openCard('lgs-f1')" class="topic-item"><span>🧬 Mevsimlerin Oluşumu ve İklim</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-lgs-f1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">Fen Bilimleri • Konu Kartı</span><button onclick="closeCard('lgs-f1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">LGS Fen Bilimleri • Derece Kartı</span>
+                            <button onclick="closeCard('lgs-f1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Mevsimlerin Oluşumu</h2>
-                            <div class="card-body-text"><b>Eksen Eğikliği:</b> Dünyanın dönme ekseninin 23° 27' eğik olması mevsimleri meydana getirir.</div>
+                            <h2>Mevsimlerin Oluşumu & Grafik Analizi</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ %100 MEB Uyumlu</span>
+                                <span class="pill">📊 Grafik ve Gölge Analizi</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tarih</th>
+                                        <th>Kuzey Yarım Küre (KYK)</th>
+                                        <th>Güney Yarım Küre (GYK)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>21 Haziran</b></td>
+                                        <td>Yaz Başlangıcı (En uzun gündüz)</td>
+                                        <td>Kış Başlangıcı (En uzun gece)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>21 Aralık</b></td>
+                                        <td>Kış Başlangıcı (En kısa gündüz)</td>
+                                        <td>Yaz Başlangıcı (En kısa gece)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>21 Mart / 23 Eylül</b></td>
+                                        <td>Ekinoks (Gece = Gündüz)</td>
+                                        <td>Ekinoks (Gece = Gündüz)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="trap-box">
+                                <strong>⚠️ MEB ÇELDİRİCİSİ:</strong> Dünya'nın Güneş'e olan <u>mesafesi/uzaklığı</u> mevsimlerin oluşumunu <b>etkilemez</b>. (Ocak ayında Dünya Güneş'e en yakın konumdayken KYK kış yaşar).
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -309,12 +526,50 @@
                     <div class="box-title">TYT Matematik Konuları</div>
                     <button onclick="openCard('tyt-m1')" class="topic-item"><span>🔢 Temel Kavramlar ve Sayılar</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-tyt-m1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">TYT Matematik • Konu Kartı</span><button onclick="closeCard('tyt-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">TYT Matematik • Derece Kartı</span>
+                            <button onclick="closeCard('tyt-m1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Temel Kavramlar</h2>
-                            <div class="card-body-text"><b>Sayı Kümeleri:</b> Doğal, tam, rasyonel ve gerçek sayılar sistematiği.</div>
+                            <h2>Sayı Kümeleri & Tek-Çift Analizi</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ ÖSYM Formatı</span>
+                                <span class="pill">🔢 Öncüllü Soru Taktiği</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Küme</th>
+                                        <th>Sembol</th>
+                                        <th>Kapsam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Doğal Sayılar</b></td>
+                                        <td><b>N</b></td>
+                                        <td>0, 1, 2, 3... (0 Doğal Sayıdır!)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Tam Sayılar</b></td>
+                                        <td><b>Z</b></td>
+                                        <td>..., -2, -1, 0, 1, 2...</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Rasyonel Sayılar</b></td>
+                                        <td><b>Q</b></td>
+                                        <td>a/b şeklinde yazılabilenler (b ≠ 0)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="trap-box">
+                                <strong>⚠️ ÖSYM TUZAĞI:</strong> Soruda "x bir reel sayı" diyorsa $x^2$ çift olduğunda x çift olmak zorunda <u>değildir!</u> (Örn: $x = \sqrt{2}$ ise $x^2 = 2$ çifttir ama x tam sayı bile değildir).
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,12 +580,45 @@
                     <div class="box-title">TYT Türkçe Konuları</div>
                     <button onclick="openCard('tyt-t1')" class="topic-item"><span>✍️ Sözcükte Anlam ve Yorumbilim</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-tyt-t1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">TYT Türkçe • Konu Kartı</span><button onclick="closeCard('tyt-t1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">TYT Türkçe • Derece Kartı</span>
+                            <button onclick="closeCard('tyt-t1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Sözcükte Anlam</h2>
-                            <div class="card-body-text"><b>Gerçek ve Mecaz:</b> Sözcüğün akla gelen ilk anlamı ve yan anlam ilişkileri.</div>
+                            <h2>Sözcükte Anlam & Bağlam Analizi</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ ÖSYM Formatı</span>
+                                <span class="pill">✍️ Paragraf & Sözcük İlişkisi</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Anlam Türü</th>
+                                        <th>Açıklama</th>
+                                        <th>Örnek</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Gerçek Anlam</b></td>
+                                        <td>Aklı ilk gelen temel anlam.</td>
+                                        <td>Soğuk suyu içti.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mecaz Anlam</b></td>
+                                        <td>Gerçek anlamından tamamen uzak.</td>
+                                        <td>Bize çok <u>soğuk</u> davrandı.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="tip-box">
+                                <strong>📌 ÖSYM İPUCU:</strong> Sözcüğün altı çizili kısmına değil, cümlenin **tamamında kazandığı bağlama** bakılarak karar verilmelidir.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -349,12 +637,46 @@
                     <div class="box-title">YKS (AYT) Matematik Konuları</div>
                     <button onclick="openCard('yks-m1')" class="topic-item"><span>📈 Türev ve İntegral Kuralları</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-yks-m1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">YKS Matematik • Konu Kartı</span><button onclick="closeCard('yks-m1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">YKS AYT • Derece Kartı</span>
+                            <button onclick="closeCard('yks-m1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Türev Kuralları</h2>
-                            <div class="card-body-text"><b>Anlık Değişim Oranı:</b> Fonksiyonun bir noktadaki eğimini bulma yöntemleri.</div>
+                            <h2>Türev Kuralları & Geometrik Yorum</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ AYT Derece Odaklı</span>
+                                <span class="pill">📈 Teğet Eğimi Analizi</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>İşlem</th>
+                                        <th>Türev Kuralı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>Polinom</b></td>
+                                        <td>$f(x) = x^n \implies f'(x) = n \cdot x^{n-1}$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Çarpım</b></td>
+                                        <td>$(u \cdot v)' = u'v + uv'$</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Bölüm</b></td>
+                                        <td>$(u / v)' = (u'v - uv') / v^2$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="trap-box">
+                                <strong>⚠️ AYT CRITICAL TRAP:</strong> Bir noktada türevin olması için o noktada fonksiyonun **SÜREKLİ** olması ve **SAĞ-SOL TÜREVLERİNİN EŞİT** olması şarttır. Sivri uçlarda (kırılma noktalarında) türev yoktur!
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -365,12 +687,42 @@
                     <div class="box-title">YKS (AYT) Fizik Konuları</div>
                     <button onclick="openCard('yks-f1')" class="topic-item"><span>⚛️ Modern Fizik ve Özel Görelilik</span><span class="arrow">İncele →</span></button>
                 </div>
+
                 <div id="card-yks-f1" class="card-pane">
                     <div class="card-box">
-                        <div class="card-header"><span class="card-tag">YKS Fizik • Konu Kartı</span><button onclick="closeCard('yks-f1')" class="close-btn">✕ Kapat</button></div>
+                        <div class="card-header">
+                            <span class="card-tag">YKS Fizik • Derece Kartı</span>
+                            <button onclick="closeCard('yks-f1')" class="close-btn">✕ Kapat</button>
+                        </div>
                         <div class="card-content">
-                            <h2>Özel Görelilik</h2>
-                            <div class="card-body-text"><b>Einstein Postulaları:</b> Işık hızı tüm eylemsiz referans sistemlerinde sabittir.</div>
+                            <h2>Özel Görelilik & Einstein Postulaları</h2>
+                            <div class="meta-pills">
+                                <span class="pill pill-green">✓ AYT Fizik</span>
+                                <span class="pill">⚛️ Zaman Genişlemesi</span>
+                            </div>
+
+                            <table class="card-table">
+                                <thead>
+                                    <tr>
+                                        <th>Postula</th>
+                                        <th>İçerik</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>1. Görelilik İlkesi</b></td>
+                                        <td>Fizik yasaları tüm eylemsiz referans sistemlerinde aynıdır.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>2. Işık Hızı</b></td>
+                                        <td>Işık hızı (c), gözlemcinin veya kaynağın hızından bağımsız sabittir.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="trap-box">
+                                <strong>⚠️ ÖSYM ÇELDİRİCİSİ:</strong> Işık hızına yakın hareket eden sistemlerde boydaki kısalma (Uzunluk Büzülmesi) <u>sadece hareket yönündeki boyutta</u> gerçekleşir, dik boyutlar değişmez!
+                            </div>
                         </div>
                     </div>
                 </div>
