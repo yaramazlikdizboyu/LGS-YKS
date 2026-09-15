@@ -82,48 +82,41 @@ def create_pro_banner(lesson_name, topic_name):
     bio.seek(0)
     return bio
 
-def send_telegram_pro_post(data, lesson_info):
-    # 1. Önce Şık Banner Görselini Gönder
+def send_telegram_interactive_post(data, lesson_info):
+    # 1. Pro İnfografik Banner'ı ve Açıklama Metnini Gönder
     try:
         banner_io = create_pro_banner(lesson_info['lesson'], lesson_info['topic'])
         url_photo = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+        
+        message = f"🚀 **LGS MAARİF AKADEMİ | İNTERAKTİF ÇALIŞMA** 🌟\n\n"
+        message += f"📌 **{lesson_info['lesson'].upper()}** ➔ _{lesson_info['topic']}_\n\n"
+        message += f"💡 **Nokta Atışı Özet:**\n{data['ozet']}\n\n"
+        message += f"────────────────────────\n"
+        message += f"❓ **Yeni Nesil Soru:**\n{data['soru']}\n\n"
+        message += f"👇 **Cevabınızı aşağıdaki butonlardan seçin:**"
+
+        # İnteraktif Inline Butonlar (A, B, C, D)
+        inline_keyboard = {
+            "inline_keyboard": [
+                [
+                    {"text": "🅰️ A", "callback_data": "ans_0"},
+                    {"text": "🅱️ B", "callback_data": "ans_1"},
+                    {"text": "🅲 C", "callback_data": "ans_2"},
+                    {"text": "🅳 D", "callback_data": "ans_3"}
+                ]
+            ]
+        }
+
         files = {'photo': ('pro_banner.jpg', banner_io, 'image/jpeg')}
         payload = {
             "chat_id": TELEGRAM_CHAT_ID,
-            "caption": f"🎯 {lesson_info['lesson'].upper()} - {lesson_info['topic']}"
+            "caption": message,
+            "parse_mode": "Markdown",
+            "reply_markup": json.dumps(inline_keyboard)
         }
         requests.post(url_photo, data=payload, files=files)
     except Exception as e:
-        print(f"Görsel gönderilemedi: {e}")
-
-    # 2. Sonra Detaylı Metin Mesajını Gönder (Karakter sınırına takılmaksızın tam iletilir)
-    message = f"🚀 LGS MAARİF AKADEMİ | PROFESYONEL ÇALIŞMA 🌟\n\n"
-    message += f"📌 {lesson_info['lesson'].upper()} ➔ {lesson_info['topic']}\n\n"
-    message += f"💡 Nokta Atışı Özet:\n{data['ozet']}\n\n"
-    message += f"────────────────────────\n"
-    message += f"❓ Yeni Nesil Soru:\n{data['soru']}\n\n"
-    
-    message += "📌 Seçenekler:\n"
-    for sec in data['secenekler']:
-        message += f"{sec}\n"
-        
-    message += f"\n────────────────────────\n"
-    message += f"🔍 Çözüm İpucu:\n{data['cozum']}"
-
-    url_msg = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    requests.post(url_msg, data={"chat_id": TELEGRAM_CHAT_ID, "text": message})
-
-    # 3. En Sona İnteraktif Anketi Ekle
-    url_poll = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPoll"
-    poll_data = {
-        "chat_id": TELEGRAM_CHAT_ID,
-        "question": f"🧠 [Günün Sorusu] {lesson_info['topic']}",
-        "options": json.dumps(data["secenekler"]),
-        "type": "quiz",
-        "correct_option_id": data["dogru_cevap_index"],
-        "is_anonymous": True
-    }
-    requests.post(url_poll, data=poll_data)
+        print(f"İnteraktif gönderi hatası: {e}")
 
 def main():
     state = load_state()
@@ -135,7 +128,7 @@ def main():
 
     lesson_info = topics[current_idx]
     content = generate_content(lesson_info)
-    send_telegram_pro_post(content, lesson_info)
+    send_telegram_interactive_post(content, lesson_info)
 
     state["current_index"] = current_idx + 1
     save_state(state)
