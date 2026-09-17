@@ -1,7 +1,12 @@
-name: LGS Telegram Bot Test
+name: Otomatik Günlük Konu ve Soru Yükleme
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Elle tetikleme desteği
+  schedule:
+    - cron: '0 6 * * *' # Her gün UTC 06:00'da (Türkiye saati ile 09:00'da) otomatik çalışır
+
+permissions:
+  contents: write # GitHub deposuna dosya kaydetme (commit/push) izni
 
 jobs:
   run-bot:
@@ -20,10 +25,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests google-genai Pillow
 
-      - name: Botu Çalıştır
+      - name: Botu Çalıştır ve JSON Güncelle
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python main.py
+
+      - name: Güncellenen topics.json Dosyasını Kaydet ve Yayınla
+        run: |
+          git config --local user.name "GitHub Actions Bot"
+          git config --local user.email "actions@github.com"
+          git add topics.json
+          # Eğer topics.json değiştiyse commit yap ve GitHub'a gönder
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Otomatik günlük yeni konu ve soru eklendi [skip ci]" && git push)
