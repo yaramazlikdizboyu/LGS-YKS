@@ -33,10 +33,10 @@ jobs:
         run: |
           python main.py
 
-      - name: Güncellenen topics.json Dosyasını Kaydet ve Yayınla
+      - name: Güncellenen topics.json ve state.json Dosyalarını Kaydet ve Yayınla
         run: |
           git config --local user.name "GitHub Actions Bot"
           git config --local user.email "actions@github.com"
-          git add topics.json
-          # Eğer topics.json değiştiyse commit yap ve GitHub'a gönder
+          git add topics.json state.json
+          # Eğer dosyalarda değişiklik olduysa commit yap ve GitHub'a gönder
           git diff --quiet && git diff --staged --quiet || (git commit -m "Otomatik günlük yeni konu ve soru eklendi [skip ci]" && git push)
