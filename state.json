@@ -4,17 +4,23 @@
     {
       "class": "8. Sınıf",
       "lesson": "Matematik",
-      "topic": "Çarpanlar ve Katlar / EBOB-EKOK"
+      "topic": "Çarpanlar ve Katlar / EBOB-EKOK",
+      "category": "lgs",
+      "sub": "mat"
     },
     {
       "class": "8. Sınıf",
       "lesson": "Fen Bilimleri",
-      "topic": "Mevsimler ve İklim"
+      "topic": "Mevsimler ve İklim",
+      "category": "lgs",
+      "sub": "fen"
     },
     {
       "class": "8. Sınıf",
       "lesson": "Türkçe",
-      "topic": "Fiilimsiler ve Metin Analizi"
+      "topic": "Fiilimsiler ve Metin Analizi",
+      "category": "lgs",
+      "sub": "turkce"
     }
   ]
 }
