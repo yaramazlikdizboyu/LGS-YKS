@@ -63,7 +63,7 @@
             box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
 
-        /* Dersler Menüsü */
+        /* Dersler Menüsü (Üst Sekmeler) */
         .lesson-menu {
             display: flex;
             gap: 6px;
@@ -216,7 +216,7 @@
             <p class="subtitle">Dinamik Konu Akışı & Yeni Nesil Test Merkezi</p>
         </header>
 
-        <!-- KADEME SEÇİMİ -->
+        <!-- KADEME SEÇİMİ (Üst Ana Sekmeler) -->
         <div class="tabs">
             <button onclick="switchTab('lgs')" id="btn-lgs" class="tab-btn active">LGS</button>
             <button onclick="switchTab('tyt')" id="btn-tyt" class="tab-btn">TYT</button>
@@ -251,6 +251,14 @@
                 });
         });
 
+        // Ders Adlarını Daha Okunabilir Hale Getirmek İçin Haritalama
+        const lessonNameMap = {
+            'turkce': 'TÜRKÇE',
+            'mat': 'MATEMATİK',
+            'fen': 'FEN BİLİMLERİ',
+            'fenbilimleri': 'FEN BİLİMLERİ'
+        };
+
         function renderApp(data) {
             const container = document.getElementById('dynamic-content-container');
             container.innerHTML = '';
@@ -263,188 +271,5 @@
                 paneDiv.id = `pane-${kademe}`;
                 paneDiv.className = `tab-pane ${kademe === 'lgs' ? 'active' : ''}`;
 
-                // Ders menüleri oluştur
-                const dersler = Object.keys(data[kademe]);
-                const lessonMenu = document.createElement('div');
-                lessonMenu.className = 'lesson-menu';
-
-                dersler.forEach((ders, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = `lesson-btn ${idx === 0 ? 'active' : ''}`;
-                    btn.id = `${kademe}-les-${ders}`;
-                    btn.innerText = ders.toUpperCase();
-                    btn.onclick = () => switchLesson(kademe, ders);
-                    lessonMenu.appendChild(btn);
-                });
-                paneDiv.appendChild(lessonMenu);
-
-                // Ders panelleri ve konu kartları
-                dersler.forEach((ders, idx) => {
-                    const lessonPane = document.createElement('div');
-                    lessonPane.id = `${kademe}-${ders}`;
-                    lessonPane.className = `lesson-pane ${idx === 0 ? 'active' : ''}`;
-
-                    const box = document.createElement('div');
-                    box.className = 'box';
-                    box.innerHTML = `<div class="box-title">${kademe.toUpperCase()} ${ders.toUpperCase()} Modülleri</div>`;
-
-                    data[kademe][ders].forEach(topic => {
-                        // Konu Listesi Butonu
-                        const topicBtn = document.createElement('button');
-                        topicBtn.className = 'topic-item';
-                        topicBtn.innerHTML = `<span>${topic.title}</span><span class="arrow">İncele →</span>`;
-                        topicBtn.onclick = () => openCard(topic.id);
-                        box.appendChild(topicBtn);
-
-                        // Gizli Konu Detay Kartı (Modal / Pane)
-                        const cardPane = document.createElement('div');
-                        cardPane.id = `card-${topic.id}`;
-                        cardPane.className = 'card-pane';
-                        
-                        let sectionsHtml = '';
-                        if (topic.sections) {
-                            topic.sections.forEach(sec => {
-                                sectionsHtml += `<h3>${sec.h3}</h3><p>${sec.p}</p>`;
-                            });
-                        }
-
-                        let pillsHtml = '';
-                        if (topic.pills) {
-                            topic.pills.forEach(p => { pillsHtml += `<span class="pill">${p}</span>`; });
-                        }
-
-                        let trapHtml = topic.trap ? `<div class="trap-box">${topic.trap}</div>` : '';
-                        let tipHtml = topic.tip ? `<div class="tip-box">${topic.tip}</div>` : '';
-
-                        // Test Soruları Oluşturma
-                        let questionsHtml = '';
-                        if (topic.questions && topic.questions.length > 0) {
-                            let qCards = '';
-                            topic.questions.forEach(q => {
-                                let optionsHtml = '';
-                                q.options.forEach((opt, oIdx) => {
-                                    optionsHtml += `<label class="option-label"><input type="radio" name="${topic.id}_q${q.num}" value="${oIdx}"> ${opt}</label>`;
-                                });
-                                qCards += `
-                                    <div class="question-card">
-                                        <div class="q-number">Soru ${q.num}</div>
-                                        <div class="q-text">${q.text}</div>
-                                        <div class="options-list">${optionsHtml}</div>
-                                        <button type="button" class="solution-toggle-btn" onclick="toggleSol('sol-${topic.id}-${q.num}')">💡 Çözüm Rehberi</button>
-                                        <div class="solution-content" id="sol-${topic.id}-${q.num}">${q.solution}</div>
-                                    </div>
-                                `;
-                            });
-
-                            questionsHtml = `
-                                <div class="test-section-box">
-                                    <div class="box-title" style="color: #38bdf8;">⚡ Yeni Nesil Konu Testi (${topic.questions.length} Soru)</div>
-                                    <form id="quiz-${topic.id}" onsubmit="evaluateQuiz(event, '${topic.id}', ${topic.questions.length})">
-                                        ${qCards}
-                                        <button type="submit" class="submit-test-btn">✨ Testi Sonuçlandır ve Puanı Gör</button>
-                                    </form>
-                                    <div id="score-${topic.id}" class="score-result-box">
-                                        <h3>Test Sonucunuz</h3>
-                                        <p id="score-text-${topic.id}">Analiz raporunuz hazırlanıyor...</p>
-                                    </div>
-                                </div>
-                            `;
-                        }
-
-                        cardPane.innerHTML = `
-                            <div class="card-box">
-                                <div class="card-header">
-                                    <span class="card-tag">${topic.tag}</span>
-                                    <button onclick="closeCard('${topic.id}')" class="close-btn">✕ Kapat</button>
-                                </div>
-                                <div class="card-content">
-                                    <h2>${topic.heading}</h2>
-                                    <div class="meta-pills">${pillsHtml}</div>
-                                    <div class="svg-graphic-container">${topic.svg || ''}</div>
-                                    ${sectionsHtml}
-                                    ${trapHtml}
-                                    ${tipHtml}
-                                    ${questionsHtml}
-                                </div>
-                            </div>
-                        `;
-
-                        box.appendChild(cardPane);
-                    });
-
-                    lessonPane.appendChild(box);
-                    paneDiv.appendChild(lessonPane);
-                });
-
-                container.appendChild(paneDiv);
-            });
-        }
-
-        // Sekme ve Navigasyon Fonksiyonları
-        function switchTab(tabId) {
-            ['lgs', 'tyt', 'yks'].forEach(t => {
-                const p = document.getElementById('pane-' + t);
-                const b = document.getElementById('btn-' + t);
-                if(p) p.classList.remove('active');
-                if(b) b.classList.remove('active');
-            });
-            document.getElementById('pane-' + tabId).classList.add('active');
-            document.getElementById('btn-' + tabId).classList.add('active');
-        }
-
-        function switchLesson(category, lessonId) {
-            const lessons = Object.keys(globalData[category] || {});
-            lessons.forEach(l => {
-                const pane = document.getElementById(category + '-' + l);
-                const btn = document.getElementById(category + '-les-' + l);
-                if(pane) pane.classList.remove('active');
-                if(btn) btn.classList.remove('active');
-            });
-            document.getElementById(category + '-' + lessonId).classList.add('active');
-            document.getElementById(category + '-les-' + lessonId).classList.add('active');
-        }
-
-        function openCard(cardId) {
-            document.getElementById('card-' + cardId).classList.add('active');
-            document.getElementById('card-' + cardId).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function closeCard(cardId) {
-            document.getElementById('card-' + cardId).classList.remove('active');
-        }
-
-        function toggleSol(solId) {
-            document.getElementById(solId).classList.toggle('show');
-        }
-
-        function evaluateQuiz(event, quizId, totalQ) {
-            event.preventDefault();
-            let correctCount = 0;
-            
-            // Konuya ait soruları globalData üzerinden bul ve kontrol et
-            let targetTopic = null;
-            for (let k in globalData) {
-                for (let d in globalData[k]) {
-                    let found = globalData[k][d].find(t => t.id === quizId);
-                    if (found) targetTopic = found;
-                }
-            }
-
-            if (!targetTopic) return;
-
-            targetTopic.questions.forEach(q => {
-                const selected = document.querySelector(`input[name="${quizId}_q${q.num}"]:checked`);
-                if (selected && parseInt(selected.value) === q.answer) {
-                    correctCount++;
-                }
-            });
-
-            const scoreBox = document.getElementById('score-' + quizId);
-            const scoreText = document.getElementById('score-text-' + quizId);
-            scoreBox.style.display = 'block';
-            scoreText.innerHTML = `Toplam <b>${totalQ}</b> sorudan <b>${correctCount}</b> doğru, <b>${totalQ - correctCount}</b> yanlış yaptınız. Başarı Oranı: %${(correctCount/totalQ)*100}`;
-            scoreBox.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
-</body>
-</html>
+                // Ders menüleri oluştur (Üstteki Ders Seçim Butonları)
+                const dersler = Object.keys(data[kademe
