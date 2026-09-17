@@ -26,6 +26,62 @@ def save_state(state):
     with open("state.json", "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
 
+def update_topics_json(lesson_info, content_data):
+    """Üretilen yeni içeriği web sitesinin okuduğu topics.json dosyasına otomatik ekler."""
+    try:
+        with open("topics.json", "r", encoding="utf-8") as f:
+            topics_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        topics_data = {"lgs": {"turkce": {}, "mat": {}, "fen": {}}, "tyt": {"mat": {}}, "yks": {"mat": {}}}
+
+    # state.json içindeki category ve sub bilgilerini alıyoruz
+    cat = lesson_info.get('category', 'lgs').lower()
+    sub = lesson_info.get('sub', 'mat').lower()
+
+    if cat not in topics_data:
+        topics_data[cat] = {}
+    if sub not in topics_data[cat]:
+        topics_data[cat][sub] = []
+
+    new_id = f"{cat}-{sub}-{int(time.time())}"
+    
+    # Web sitesi şablonuna uygun bölümleri oluşturuyoruz
+    sections = []
+    if "ozet" in content_data:
+        sections.append({
+            "h3": f"Günlük Konu Özeti: {lesson_info['topic']}",
+            "p": content_data["ozet"].replace("\n", "<br>")
+        })
+
+    questions = []
+    if "soru" in content_data:
+        questions.append({
+            "num": 1,
+            "text": content_data["soru"],
+            "options": content_data.get("secenekler", []),
+            "answer": content_data.get("dogru_cevap_index", 0),
+            "solution": content_data.get("cozum", "")
+        })
+
+    new_entry = {
+        "id": new_id,
+        "title": f"📌 {lesson_info['topic']} (Günlük Modül)",
+        "tag": f"{cat.upper()} {lesson_info.get('lesson', sub)} • Günlük Akıllı Merkez",
+        "heading": lesson_info['topic'],
+        "pills": ["✓ Günlük Otomatik İçerik", "✓ Yeni Nesil Soru"],
+        "svg": "",
+        "sections": sections,
+        "trap": "<strong>⚠️ MEB Çeldirici Uyarısı:</strong> Bu konu başlığında soru çözerken kavram yanılgılarına dikkat edin.",
+        "questions": questions
+    }
+
+    # Yeni içeriği listeye en başa ekliyoruz ki sitede en üstte görünsün
+    topics_data[cat][sub].insert(0, new_entry)
+
+    with open("topics.json", "w", encoding="utf-8") as f:
+        json.dump(topics_data, f, ensure_ascii=False, indent=2)
+    print("topics.json dosyası başarıyla güncellendi ve yeni içerik eklendi!")
+
 def generate_content(lesson_info):
     """Gemini kullanarak o günün konusu için içerik üretir."""
     prompt = f"""
@@ -153,7 +209,12 @@ def main():
     print(f"İçerik üretiliyor: {lesson_info['lesson']} - {lesson_info['topic']}")
 
     content_data = generate_content(lesson_info)
+    
+    # 1. Telegram'da paylaş
     send_telegram_pro_post(content_data, lesson_info)
+    
+    # 2. Web sitesinin topics.json dosyasına otomatik ekle
+    update_topics_json(lesson_info, content_data)
 
     state["current_index"] = current_idx + 1
     save_state(state)
