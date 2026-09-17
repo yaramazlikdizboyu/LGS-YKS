@@ -194,4 +194,244 @@
         .option-label input { accent-color: #3b82f6; }
 
         .solution-toggle-btn { background: #1e293b; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 6px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; cursor: pointer; }
-        .solution-content { display: none; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 12px; border-radius: 0
+        .solution-content { display: none; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 12px; border-radius: 0 8px 8px 0; margin-top: 10px; font-size: 12.5px; color: #d1fae5; line-height: 1.5; }
+        .solution-content.show { display: block; }
+
+        .submit-test-btn { width: 100%; background: #10b981; color: #ffffff; font-size: 14px; font-weight: 800; padding: 12px; border-radius: 12px; border: none; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .submit-test-btn:hover { background: #059669; }
+
+        .score-result-box { display: none; background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; border-radius: 14px; padding: 16px; text-align: center; margin-top: 16px; }
+        .score-result-box h3 { font-size: 18px; color: #34d399; margin-bottom: 4px; }
+        .score-result-box p { font-size: 13.5px; color: #f8fafc; }
+
+        footer { text-align: center; font-size: 11px; color: #64748b; font-weight: 600; margin-top: 30px; padding-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="badge">✨ TÜRKİYE YÜZYILI MAARİF MODELİ</div>
+            <h1>Maarif <span>Akademi</span></h1>
+            <p class="subtitle">Dinamik Konu Akışı & Yeni Nesil Test Merkezi</p>
+        </header>
+
+        <!-- KADEME SEÇİMİ (Üst Ana Sekmeler) -->
+        <div class="tabs">
+            <button onclick="switchTab('lgs')" id="btn-lgs" class="tab-btn active">LGS</button>
+            <button onclick="switchTab('tyt')" id="btn-tyt" class="tab-btn">TYT</button>
+            <button onclick="switchTab('yks')" id="btn-yks" class="tab-btn">YKS (AYT)</button>
+        </div>
+
+        <!-- DİNAMİK İÇERİK KONTEYNERİ -->
+        <div id="dynamic-content-container">
+            <p style="text-align:center; color:#475569; padding:20px;">İçerikler yükleniyor...</p>
+        </div>
+
+        <footer>
+            <p>Türkiye Yüzyılı Maarif Modeli Dinamik Eğitim Platformu</p>
+            <p>© 2026 Maarif Akademi • Tüm Hakları Saklıdır.</p>
+        </footer>
+    </div>
+
+    <script>
+        let globalData = {};
+
+        const lessonNameMap = {
+            'turkce': 'TÜRKÇE',
+            'mat': 'MATEMATİK',
+            'fen': 'FEN BİLİMLERİ',
+            'fenbilimleri': 'FEN BİLİMLERİ'
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('topics.json')
+                .then(response => response.json())
+                .then(data => {
+                    globalData = data;
+                    renderApp(data);
+                })
+                .catch(error => {
+                    console.error("Veri yüklenemedi:", error);
+                    document.getElementById('dynamic-content-container').innerHTML = '<p style="text-align:center; color:red;">İçerik yüklenirken bir hata oluştu.</p>';
+                });
+        });
+
+        function renderApp(data) {
+            const container = document.getElementById('dynamic-content-container');
+            container.innerHTML = '';
+
+            const kademeler = ['lgs', 'tyt', 'yks'];
+            kademeler.forEach(kademe => {
+                if (!data[kademe]) return;
+
+                const paneDiv = document.createElement('div');
+                paneDiv.id = `pane-${kademe}`;
+                paneDiv.className = `tab-pane ${kademe === 'lgs' ? 'active' : ''}`;
+
+                const dersler = Object.keys(data[kademe]);
+                
+                // Ders Menüsü
+                const lessonMenu = document.createElement('div');
+                lessonMenu.className = 'lesson-menu';
+                dersler.forEach((ders, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = `lesson-btn ${index === 0 ? 'active' : ''}`;
+                    btn.innerText = lessonNameMap[ders] || ders.toUpperCase();
+                    btn.onclick = () => switchLesson(kademe, ders);
+                    btn.id = `btn-${kademe}-${ders}`;
+                    lessonMenu.appendChild(btn);
+                });
+                paneDiv.appendChild(lessonMenu);
+
+                // Ders İçerik Panelleri
+                dersler.forEach((ders, index) => {
+                    const lessonPane = document.createElement('div');
+                    lessonPane.id = `pane-${kademe}-${ders}`;
+                    lessonPane.className = `lesson-pane ${index === 0 ? 'active' : ''}`;
+
+                    const topics = data[kademe][ders];
+                    topics.forEach(topic => {
+                        const topicBtn = document.createElement('button');
+                        topicBtn.className = 'topic-item';
+                        topicBtn.innerHTML = `<span>${topic.title}</span><span class="arrow">➔</span>`;
+                        topicBtn.onclick = () => openTopicCard(topic);
+                        lessonPane.appendChild(topicBtn);
+                    });
+
+                    paneDiv.appendChild(lessonPane);
+                });
+
+                // Kart Detay Alanı
+                const cardPane = document.createElement('div');
+                cardPane.id = `card-pane-${kademe}`;
+                cardPane.className = 'card-pane';
+                paneDiv.appendChild(cardPane);
+
+                container.appendChild(paneDiv);
+            });
+        }
+
+        function switchTab(kademe) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${kademe}`).classList.add('active');
+
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.getElementById(`pane-${kademe}`).classList.add('active');
+        }
+
+        function switchLesson(kademe, ders) {
+            const pane = document.getElementById(`pane-${kademe}`);
+            pane.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${kademe}-${ders}`).classList.add('active');
+
+            pane.querySelectorAll('.lesson-pane').forEach(p => p.classList.remove('active'));
+            document.getElementById(`pane-${kademe}-${ders}`).classList.add('active');
+
+            // Başka derse geçildiğinde açık kartı gizle
+            document.getElementById(`card-pane-${kademe}`).classList.remove('active');
+            pane.querySelectorAll('.lesson-pane')[0].style.display = 'block'; // Listeyi geri getir
+        }
+
+        function openTopicCard(topic) {
+            // Hangi kademede olduğumuzu bulalım
+            let kademe = 'lgs';
+            if (topic.id.startsWith('tyt')) kademe = 'tyt';
+            if (topic.id.startsWith('yks')) kademe = 'yks';
+
+            const cardPane = document.getElementById(`card-pane-${kademe}`);
+            
+            let sectionsHtml = '';
+            if (topic.sections) {
+                topic.sections.forEach(sec => {
+                    sectionsHtml += `<h3>${sec.h3}</h3><p>${sec.p}</p>`;
+                });
+            }
+
+            let pillsHtml = '';
+            if (topic.pills) {
+                topic.pills.forEach(pill => {
+                    pillsHtml += `<span class="pill">${pill}</span>`;
+                });
+            }
+
+            let trapHtml = topic.trap ? `<div class="trap-box">${topic.trap}</div>` : '';
+            let tipHtml = topic.tip ? `<div class="tip-box">${topic.tip}</div>` : '';
+            let svgHtml = topic.svg ? `<div class="svg-graphic-container">${topic.svg}</div>` : '';
+
+            let questionsHtml = '';
+            if (topic.questions && topic.questions.length > 0) {
+                topic.questions.forEach((q, qIdx) => {
+                    let optionsHtml = '';
+                    q.options.forEach((opt, oIdx) => {
+                        optionsHtml += `
+                            <label class="option-label">
+                                <input type="radio" name="q_${topic.id}_${qIdx}" value="${oIdx}">
+                                <span>${opt}</span>
+                            </label>`;
+                    });
+
+                    questionsHtml += `
+                        <div class="question-card">
+                            <div class="q-number">Soru ${q.num}</div>
+                            <div class="q-text">${q.text}</div>
+                            <div class="options-list">${optionsHtml}</div>
+                            <button class="solution-toggle-btn" onclick="toggleSolution('${topic.id}_${qIdx}')">💡 Çözümü Göster</button>
+                            <div id="sol_${topic.id}_${qIdx}" class="solution-content">${q.solution}</div>
+                        </div>`;
+                });
+
+                questionsHtml = `
+                    <div class="test-section-box">
+                        <h3 style="color:#38bdf8; margin-bottom:12px; font-size:15px;">📝 Yeni Nesil Test Merkezi</h3>
+                        ${questionsHtml}
+                    </div>`;
+            }
+
+            cardPane.innerHTML = `
+                <div class="card-box">
+                    <div class="card-header">
+                        <span class="card-tag">${topic.tag}</span>
+                        <button class="close-btn" onclick="closeTopicCard('${kademe}')">Kapat ✕</button>
+                    </div>
+                    <div class="card-content">
+                        <h2>${topic.heading}</h2>
+                        <div class="meta-pills">${pillsHtml}</div>
+                        ${svgHtml}
+                        ${sectionsHtml}
+                        ${trapHtml}
+                        ${tipHtml}
+                        ${questionsHtml}
+                    </div>
+                </div>`;
+
+            // İlgili kademedeki ders listelerini gizle, kartı göster
+            const pane = document.getElementById(`pane-${kademe}`);
+            pane.querySelectorAll('.lesson-pane').forEach(p => p.classList.remove('active'));
+            cardPane.classList.add('active');
+        }
+
+        function closeTopicCard(kademe) {
+            const cardPane = document.getElementById(`card-pane-${kademe}`);
+            cardPane.classList.remove('active');
+
+            // Aktif olan dersin panosunu tekrar aktif et
+            const pane = document.getElementById(`pane-${kademe}`);
+            const activeLessonBtn = pane.querySelector('.lesson-btn.active');
+            if (activeLessonBtn) {
+                const lessonId = activeLessonBtn.id.replace(`btn-${kademe}-`, `pane-${kademe}-`);
+                document.getElementById(lessonId).classList.add('active');
+            }
+        }
+
+        function toggleSolution(qId) {
+            const solBox = document.getElementById(`sol_${qId}`);
+            if (solBox.classList.contains('show')) {
+                solBox.classList.remove('show');
+            } else {
+                solBox.classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>
